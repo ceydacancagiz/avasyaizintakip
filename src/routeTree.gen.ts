@@ -9,38 +9,149 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedYeniTalepRouteImport } from './routes/_authenticated/yeni-talep'
+import { Route as AuthenticatedTaleplerimRouteImport } from './routes/_authenticated/taleplerim'
+import { Route as AuthenticatedTakvimRouteImport } from './routes/_authenticated/takvim'
+import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
+import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
+import { Route as AuthenticatedOnayPaneliRouteImport } from './routes/_authenticated/onay-paneli'
 
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedYeniTalepRoute = AuthenticatedYeniTalepRouteImport.update({
+  id: '/yeni-talep',
+  path: '/yeni-talep',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTaleplerimRoute = AuthenticatedTaleplerimRouteImport.update({
+  id: '/taleplerim',
+  path: '/taleplerim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTakvimRoute = AuthenticatedTakvimRouteImport.update({
+  id: '/takvim',
+  path: '/takvim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfilRoute = AuthenticatedProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
+  id: '/panel',
+  path: '/panel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnayPaneliRoute = AuthenticatedOnayPaneliRouteImport.update({
+  id: '/onay-paneli',
+  path: '/onay-paneli',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onay-paneli': typeof AuthenticatedOnayPaneliRoute
+  '/panel': typeof AuthenticatedPanelRoute
+  '/profil': typeof AuthenticatedProfilRoute
+  '/takvim': typeof AuthenticatedTakvimRoute
+  '/taleplerim': typeof AuthenticatedTaleplerimRoute
+  '/yeni-talep': typeof AuthenticatedYeniTalepRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onay-paneli': typeof AuthenticatedOnayPaneliRoute
+  '/panel': typeof AuthenticatedPanelRoute
+  '/profil': typeof AuthenticatedProfilRoute
+  '/takvim': typeof AuthenticatedTakvimRoute
+  '/taleplerim': typeof AuthenticatedTaleplerimRoute
+  '/yeni-talep': typeof AuthenticatedYeniTalepRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/onay-paneli': typeof AuthenticatedOnayPaneliRoute
+  '/_authenticated/panel': typeof AuthenticatedPanelRoute
+  '/_authenticated/profil': typeof AuthenticatedProfilRoute
+  '/_authenticated/takvim': typeof AuthenticatedTakvimRoute
+  '/_authenticated/taleplerim': typeof AuthenticatedTaleplerimRoute
+  '/_authenticated/yeni-talep': typeof AuthenticatedYeniTalepRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/onay-paneli'
+    | '/panel'
+    | '/profil'
+    | '/takvim'
+    | '/taleplerim'
+    | '/yeni-talep'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/onay-paneli'
+    | '/panel'
+    | '/profil'
+    | '/takvim'
+    | '/taleplerim'
+    | '/yeni-talep'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/onay-paneli'
+    | '/_authenticated/panel'
+    | '/_authenticated/profil'
+    | '/_authenticated/takvim'
+    | '/_authenticated/taleplerim'
+    | '/_authenticated/yeni-talep'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +159,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/yeni-talep': {
+      id: '/_authenticated/yeni-talep'
+      path: '/yeni-talep'
+      fullPath: '/yeni-talep'
+      preLoaderRoute: typeof AuthenticatedYeniTalepRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/taleplerim': {
+      id: '/_authenticated/taleplerim'
+      path: '/taleplerim'
+      fullPath: '/taleplerim'
+      preLoaderRoute: typeof AuthenticatedTaleplerimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/takvim': {
+      id: '/_authenticated/takvim'
+      path: '/takvim'
+      fullPath: '/takvim'
+      preLoaderRoute: typeof AuthenticatedTakvimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profil': {
+      id: '/_authenticated/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof AuthenticatedProfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/panel': {
+      id: '/_authenticated/panel'
+      path: '/panel'
+      fullPath: '/panel'
+      preLoaderRoute: typeof AuthenticatedPanelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onay-paneli': {
+      id: '/_authenticated/onay-paneli'
+      path: '/onay-paneli'
+      fullPath: '/onay-paneli'
+      preLoaderRoute: typeof AuthenticatedOnayPaneliRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedOnayPaneliRoute: typeof AuthenticatedOnayPaneliRoute
+  AuthenticatedPanelRoute: typeof AuthenticatedPanelRoute
+  AuthenticatedProfilRoute: typeof AuthenticatedProfilRoute
+  AuthenticatedTakvimRoute: typeof AuthenticatedTakvimRoute
+  AuthenticatedTaleplerimRoute: typeof AuthenticatedTaleplerimRoute
+  AuthenticatedYeniTalepRoute: typeof AuthenticatedYeniTalepRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedOnayPaneliRoute: AuthenticatedOnayPaneliRoute,
+  AuthenticatedPanelRoute: AuthenticatedPanelRoute,
+  AuthenticatedProfilRoute: AuthenticatedProfilRoute,
+  AuthenticatedTakvimRoute: AuthenticatedTakvimRoute,
+  AuthenticatedTaleplerimRoute: AuthenticatedTaleplerimRoute,
+  AuthenticatedYeniTalepRoute: AuthenticatedYeniTalepRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
