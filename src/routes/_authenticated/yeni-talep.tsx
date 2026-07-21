@@ -96,12 +96,57 @@ function YeniTalep() {
       toplam_gun: totalDays,
       aciklama: aciklama || null,
     });
-    setLoading(false);
 
     if (error) {
+      setLoading(false);
       toast.error("Talep oluşturulamadı", { description: error.message });
       return;
     }
+
+    // In-app notification for all managers
+    try {
+      const { data: managerRoles } = await supabase
+        .from("user_roles")
+        .select("user_id")
+        .eq("role", "yonetici");
+      const managerIds = (managerRoles ?? []).map((r) => r.user_id);
+      if (managerIds.length > 0) {
+        const title = `Yeni izin talebi — ${profile?.ad_soyad ?? "Çalışan"}`;
+        const body = `${LEAVE_TYPE_LABEL[izinTuru]} · ${formatDateTR(start)} – ${formatDateTR(end)} · ${totalDays} gün`;
+        await supabase.from("notifications").insert(
+          managerIds.map((uid) => ({
+            user_id: uid,
+            title,
+            body,
+            link: "/onay-paneli",
+          })),
+        );
+      }
+    } catch (e) {
+      console.error("notification insert failed", e);
+    }
+
+    // Outlook email to Evrim Hanım
+    try {
+      const res = await sendLeaveRequestEmail({
+        data: {
+          employeeName: profile?.ad_soyad ?? user.email ?? "Çalışan",
+          employeeEmail: user.email ?? "",
+          leaveType: LEAVE_TYPE_LABEL[izinTuru],
+          startDate: formatDateTR(start),
+          endDate: formatDateTR(end),
+          totalDays,
+          description: aciklama || null,
+        },
+      });
+      if (!res.sent && res.reason) {
+        toast.warning("E-posta gönderilemedi", { description: res.reason });
+      }
+    } catch (e) {
+      console.error("email send failed", e);
+    }
+
+    setLoading(false);
     toast.success("İzin talebi başarıyla iletildi", {
       description: "Yönetici onayı bekleniyor.",
     });
