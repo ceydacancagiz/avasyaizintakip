@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Loader2 } from "lucide-react";
+import { NotificationBell } from "@/components/NotificationBell";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -43,11 +44,14 @@ function AuthenticatedLayout() {
               <span className="text-sm font-medium text-muted-foreground">
                 Avasya Teknoloji
               </span>
-              {profile && (
-                <span className="hidden text-xs text-muted-foreground sm:inline">
-                  {profile.ad_soyad} · {profile.departman}
-                </span>
-              )}
+              <div className="flex items-center gap-3">
+                {profile && (
+                  <span className="hidden text-xs text-muted-foreground sm:inline">
+                    {profile.ad_soyad} · {profile.departman}
+                  </span>
+                )}
+                <NotificationBell />
+              </div>
             </div>
           </header>
           <main className="flex-1 p-4 sm:p-6 lg:p-8">
