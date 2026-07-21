@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useHolidays } from "@/hooks/useLeaves";
 import { useQueryClient } from "@tanstack/react-query";
+import { sendLeaveRequestEmail } from "@/lib/leave-email.functions";
+import { LEAVE_TYPE_LABEL } from "@/lib/leave-utils";
 import {
   Card,
   CardContent,
