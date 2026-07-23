@@ -67,6 +67,27 @@ export function NotificationBell() {
             </button>
           )}
         </div>
+        {perm !== "granted" && perm !== "unsupported" && (
+          <div className="flex items-center justify-between gap-2 border-b bg-brand-red/5 p-3">
+            <div className="flex items-start gap-2">
+              <BellRing className="mt-0.5 h-4 w-4 text-brand-red" />
+              <p className="text-xs text-muted-foreground">
+                Masaüstü bildirimleri kapalı. Yeni izin talepleri için etkinleştirin.
+              </p>
+            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 shrink-0 text-xs"
+              onClick={async () => {
+                const p = await requestNotificationPermission();
+                setPerm(p as NotificationPermission);
+              }}
+            >
+              Aç
+            </Button>
+          </div>
+        )}
         <div className="max-h-96 overflow-y-auto">
           {items.length === 0 ? (
             <p className="p-6 text-center text-sm text-muted-foreground">
