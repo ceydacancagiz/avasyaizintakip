@@ -1,5 +1,6 @@
-import { Bell } from "lucide-react";
+import { Bell, BellRing } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -10,6 +11,7 @@ import {
   useNotifications,
   markNotificationRead,
   markAllRead,
+  requestNotificationPermission,
 } from "@/hooks/useNotifications";
 import { useAuth } from "@/hooks/useAuth";
 import { formatDistanceToNow } from "date-fns";
@@ -21,6 +23,19 @@ export function NotificationBell() {
   const { data: items = [] } = useNotifications();
   const qc = useQueryClient();
   const unread = items.filter((n) => !n.read).length;
+  const [perm, setPerm] = useState<NotificationPermission | "unsupported">(
+    typeof window !== "undefined" && "Notification" in window
+      ? Notification.permission
+      : "unsupported",
+  );
+
+  useEffect(() => {
+    if (perm === "default") {
+      // Best-effort auto prompt on first mount
+      requestNotificationPermission().then((p) => setPerm(p as NotificationPermission));
+    }
+  }, [perm]);
+
 
   const refresh = () =>
     qc.invalidateQueries({ queryKey: ["notifications", user?.id] });
