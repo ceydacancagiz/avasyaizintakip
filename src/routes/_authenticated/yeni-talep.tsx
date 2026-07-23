@@ -125,25 +125,8 @@ function YeniTalep() {
       console.error("notification insert failed", e);
     }
 
-    // Outlook email to Evrim Hanım
-    try {
-      const res = await sendLeaveRequestEmail({
-        data: {
-          employeeName: profile?.ad_soyad ?? user.email ?? "Çalışan",
-          employeeEmail: user.email ?? "",
-          leaveType: LEAVE_TYPE_LABEL[izinTuru],
-          startDate: formatDateTR(start),
-          endDate: formatDateTR(end),
-          totalDays,
-          description: aciklama || null,
-        },
-      });
-      if (!res.sent && res.reason) {
-        toast.warning("E-posta gönderilemedi", { description: res.reason });
-      }
-    } catch (e) {
-      console.error("email send failed", e);
-    }
+
+
 
     setLoading(false);
     toast.success("İzin talebi başarıyla iletildi", {
