@@ -42,7 +42,7 @@ function AuthenticatedLayout() {
             <Separator orientation="vertical" className="h-5" />
             <div className="flex flex-1 items-center justify-between gap-3">
               <span className="text-sm font-medium text-muted-foreground">
-                Avasya Teknoloji
+                AVASYA TEKNOLOJİ
               </span>
               <div className="flex items-center gap-3">
                 {profile && (
