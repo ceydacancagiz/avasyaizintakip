@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Loader2, CalendarDays } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -64,38 +64,56 @@ function AuthPage() {
       return;
     }
     toast.success("Kayıt oluşturuldu", {
-      description: "E-postanızı doğrulamanız gerekebilir.",
+      description: "Hesabınız hazır. Giriş yapabilirsiniz.",
     });
+    setTab("login");
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background via-background to-secondary/30 px-4 py-10">
-      <div className="w-full max-w-md">
-        <div className="mb-8 flex flex-col items-center gap-3 text-center">
-          <div className="grid h-14 w-14 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
-            <CalendarDays className="h-7 w-7" />
+    <div className="dark relative flex min-h-screen items-center justify-center overflow-hidden bg-black px-4 py-10">
+      {/* Ambient glow */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="h-[50rem] w-[50rem] rounded-full bg-brand-red/10 blur-[120px]" />
+      </div>
+      <div className="pointer-events-none absolute left-0 top-0 h-full w-full bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.04),transparent_40%)]" />
+
+      <div className="relative z-10 w-full max-w-md">
+        <div className="mb-8 flex flex-col items-center gap-4 text-center">
+          <div className="relative">
+            <div className="absolute inset-0 rounded-3xl bg-brand-red/20 blur-xl" />
+            <img
+              src="/icon-512.png"
+              alt="AVASYA TEKNOLOJİ İzin Takip"
+              className="relative h-24 w-24 rounded-2xl shadow-2xl shadow-black/40"
+            />
           </div>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
-              AVASYA
+            <h1 className="text-3xl font-extrabold tracking-tight text-white">
+              AVASYA <span className="text-brand-red">TEKNOLOJİ</span>
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-sm font-medium text-white/60">
               İzin Yönetim ve Ortak Takvim
             </p>
           </div>
         </div>
 
-        <Card className="border-border/60 p-6 shadow-xl">
+        <Card className="border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/50 backdrop-blur-md">
           <Tabs value={tab} onValueChange={(v) => setTab(v as "login" | "register")}>
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Giriş Yap</TabsTrigger>
-              <TabsTrigger value="register">Kayıt Ol</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-white/10">
+              <TabsTrigger value="login" className="data-[state=active]:bg-white data-[state=active]:text-black">
+                Giriş Yap
+              </TabsTrigger>
+              <TabsTrigger value="register" className="data-[state=active]:bg-white data-[state=active]:text-black">
+                Kayıt Ol
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="login" className="mt-6">
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="l-email">E-posta</Label>
+                  <Label htmlFor="l-email" className="text-white/80">
+                    E-posta
+                  </Label>
                   <Input
                     id="l-email"
                     type="email"
@@ -103,10 +121,13 @@ function AuthPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="ad.soyad@avasya.com.tr"
+                    className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-brand-red"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="l-pass">Şifre</Label>
+                  <Label htmlFor="l-pass" className="text-white/80">
+                    Şifre
+                  </Label>
                   <Input
                     id="l-pass"
                     type="password"
@@ -114,9 +135,14 @@ function AuthPage() {
                     minLength={6}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-brand-red"
                   />
                 </div>
-                <Button type="submit" disabled={loading} className="w-full">
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-white text-black hover:bg-white/90"
+                >
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Giriş Yap
                 </Button>
@@ -126,36 +152,48 @@ function AuthPage() {
             <TabsContent value="register" className="mt-6">
               <form onSubmit={handleRegister} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="r-name">Ad Soyad</Label>
+                  <Label htmlFor="r-name" className="text-white/80">
+                    Ad Soyad
+                  </Label>
                   <Input
                     id="r-name"
                     required
                     value={adSoyad}
                     onChange={(e) => setAdSoyad(e.target.value)}
                     placeholder="Ahmet Yılmaz"
+                    className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-brand-red"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="r-dep">Departman</Label>
+                  <Label htmlFor="r-dep" className="text-white/80">
+                    Departman
+                  </Label>
                   <Input
                     id="r-dep"
                     value={departman}
                     onChange={(e) => setDepartman(e.target.value)}
                     placeholder="Yazılım Geliştirme"
+                    className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-brand-red"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="r-email">E-posta</Label>
+                  <Label htmlFor="r-email" className="text-white/80">
+                    E-posta
+                  </Label>
                   <Input
                     id="r-email"
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="ad.soyad@avasya.com.tr"
+                    className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-brand-red"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="r-pass">Şifre</Label>
+                  <Label htmlFor="r-pass" className="text-white/80">
+                    Şifre
+                  </Label>
                   <Input
                     id="r-pass"
                     type="password"
@@ -163,19 +201,28 @@ function AuthPage() {
                     minLength={6}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="border-white/10 bg-white/5 text-white placeholder:text-white/30 focus-visible:ring-brand-red"
                   />
                 </div>
-                <Button type="submit" disabled={loading} className="w-full">
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-white text-black hover:bg-white/90"
+                >
                   {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Hesap Oluştur
                 </Button>
-                <p className="text-center text-xs text-muted-foreground">
-                  Kayıt olan ilk kullanıcı otomatik olarak <b>Yönetici</b> yetkisi alır.
+                <p className="text-center text-xs text-white/50">
+                  Kayıt olan ilk kullanıcı otomatik olarak <b className="text-white/80">Yönetici</b> yetkisi alır.
                 </p>
               </form>
             </TabsContent>
           </Tabs>
         </Card>
+
+        <p className="mt-6 text-center text-xs text-white/30">
+          © {new Date().getFullYear()} AVASYA TEKNOLOJİ. Tüm hakları saklıdır.
+        </p>
       </div>
     </div>
   );

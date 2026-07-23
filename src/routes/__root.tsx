@@ -79,18 +79,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Avasya | İzin Yönetim ve Ortak Takvim" },
+      { title: "AVASYA TEKNOLOJİ | İzin Yönetim ve Ortak Takvim" },
       {
         name: "description",
         content:
-          "Avasya Teknoloji kurumsal izin yönetim ve ortak takvim uygulaması. İzin talepleri, onay süreçleri ve şirket genelinde ortak takvim tek platformda.",
+          "AVASYA TEKNOLOJİ kurumsal izin yönetim ve ortak takvim uygulaması. İzin talepleri, onay süreçleri ve şirket genelinde ortak takvim tek platformda.",
       },
-      { name: "author", content: "Avasya Teknoloji" },
-      { property: "og:title", content: "Avasya | İzin Yönetim ve Ortak Takvim" },
+      { name: "author", content: "AVASYA TEKNOLOJİ" },
+      { property: "og:title", content: "AVASYA TEKNOLOJİ | İzin Yönetim ve Ortak Takvim" },
       {
         property: "og:description",
         content:
-          "Avasya Teknoloji kurumsal izin yönetim ve ortak takvim uygulaması. İzin talepleri, onay süreçleri ve şirket genelinde ortak takvim tek platformda.",
+          "AVASYA TEKNOLOJİ kurumsal izin yönetim ve ortak takvim uygulaması. İzin talepleri, onay süreçleri ve şirket genelinde ortak takvim tek platformda.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
