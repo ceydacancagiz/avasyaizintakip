@@ -13,6 +13,45 @@ export type Notification = {
   created_at: string;
 };
 
+function canNotify() {
+  return (
+    typeof window !== "undefined" &&
+    "Notification" in window &&
+    Notification.permission === "granted"
+  );
+}
+
+export function showDesktopNotification(title: string, body?: string, link?: string) {
+  if (!canNotify()) return;
+  try {
+    const n = new Notification(title, {
+      body: body ?? undefined,
+      icon: "/icon-512.png",
+      badge: "/icon-512.png",
+      tag: link ?? title,
+    });
+    n.onclick = () => {
+      window.focus();
+      if (link) window.location.href = link;
+      n.close();
+    };
+  } catch (e) {
+    console.error("desktop notification failed", e);
+  }
+}
+
+export async function requestNotificationPermission() {
+  if (typeof window === "undefined" || !("Notification" in window)) return "unsupported";
+  if (Notification.permission === "default") {
+    try {
+      return await Notification.requestPermission();
+    } catch {
+      return "denied";
+    }
+  }
+  return Notification.permission;
+}
+
 export function useNotifications() {
   const { user } = useAuth();
   const qc = useQueryClient();
@@ -38,7 +77,21 @@ export function useNotifications() {
       .on(
         "postgres_changes",
         {
-          event: "*",
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const n = payload.new as Notification;
+          showDesktopNotification(n.title, n.body ?? undefined, n.link ?? undefined);
+          qc.invalidateQueries({ queryKey: ["notifications", user.id] });
+        },
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
           schema: "public",
           table: "notifications",
           filter: `user_id=eq.${user.id}`,

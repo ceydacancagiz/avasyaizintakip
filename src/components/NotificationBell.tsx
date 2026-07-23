@@ -1,5 +1,6 @@
-import { Bell } from "lucide-react";
+import { Bell, BellRing } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -10,6 +11,7 @@ import {
   useNotifications,
   markNotificationRead,
   markAllRead,
+  requestNotificationPermission,
 } from "@/hooks/useNotifications";
 import { useAuth } from "@/hooks/useAuth";
 import { formatDistanceToNow } from "date-fns";
@@ -21,6 +23,19 @@ export function NotificationBell() {
   const { data: items = [] } = useNotifications();
   const qc = useQueryClient();
   const unread = items.filter((n) => !n.read).length;
+  const [perm, setPerm] = useState<NotificationPermission | "unsupported">(
+    typeof window !== "undefined" && "Notification" in window
+      ? Notification.permission
+      : "unsupported",
+  );
+
+  useEffect(() => {
+    if (perm === "default") {
+      // Best-effort auto prompt on first mount
+      requestNotificationPermission().then((p) => setPerm(p as NotificationPermission));
+    }
+  }, [perm]);
+
 
   const refresh = () =>
     qc.invalidateQueries({ queryKey: ["notifications", user?.id] });
@@ -52,6 +67,27 @@ export function NotificationBell() {
             </button>
           )}
         </div>
+        {perm !== "granted" && perm !== "unsupported" && (
+          <div className="flex items-center justify-between gap-2 border-b bg-brand-red/5 p-3">
+            <div className="flex items-start gap-2">
+              <BellRing className="mt-0.5 h-4 w-4 text-brand-red" />
+              <p className="text-xs text-muted-foreground">
+                Masaüstü bildirimleri kapalı. Yeni izin talepleri için etkinleştirin.
+              </p>
+            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              className="h-7 shrink-0 text-xs"
+              onClick={async () => {
+                const p = await requestNotificationPermission();
+                setPerm(p as NotificationPermission);
+              }}
+            >
+              Aç
+            </Button>
+          </div>
+        )}
         <div className="max-h-96 overflow-y-auto">
           {items.length === 0 ? (
             <p className="p-6 text-center text-sm text-muted-foreground">

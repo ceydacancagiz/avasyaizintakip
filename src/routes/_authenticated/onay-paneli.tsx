@@ -78,6 +78,13 @@ function OnayPaneliPage() {
     toast.success("Talep onaylandı", {
       description: `${nameById.get(l.user_id)} · ${l.toplam_gun} gün`,
     });
+    // Notify the requesting employee
+    await supabase.from("notifications").insert({
+      user_id: l.user_id,
+      title: "İzin talebiniz onaylandı ✅",
+      body: `${LEAVE_TYPE_LABEL[l.izin_turu]} · ${formatDateTR(l.baslangic_tarihi)} – ${formatDateTR(l.bitis_tarihi)} · ${l.toplam_gun} gün`,
+      link: "/taleplerim",
+    });
     qc.invalidateQueries({ queryKey: ["leaves"] });
     qc.invalidateQueries({ queryKey: ["profiles"] });
   };
@@ -100,6 +107,13 @@ function OnayPaneliPage() {
     setBusy(null);
     if (error) return toast.error(error.message);
     toast.success("Talep reddedildi");
+    // Notify the requesting employee
+    await supabase.from("notifications").insert({
+      user_id: rejectFor.user_id,
+      title: "İzin talebiniz reddedildi ❌",
+      body: `${LEAVE_TYPE_LABEL[rejectFor.izin_turu]} · ${formatDateTR(rejectFor.baslangic_tarihi)} – ${formatDateTR(rejectFor.bitis_tarihi)} · Neden: ${rejectReason.trim()}`,
+      link: "/taleplerim",
+    });
     qc.invalidateQueries({ queryKey: ["leaves"] });
     setRejectFor(null);
     setRejectReason("");
