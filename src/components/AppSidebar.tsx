@@ -59,7 +59,7 @@ export function AppSidebar() {
           </div>
           <div className="min-w-0 group-data-[collapsible=icon]:hidden">
             <p className="truncate text-sm font-bold tracking-tight text-sidebar-foreground">
-              AVASYA
+              AVASYA TEKNOLOJİ
             </p>
             <p className="truncate text-[11px] text-sidebar-foreground/70">
               İzin Yönetimi

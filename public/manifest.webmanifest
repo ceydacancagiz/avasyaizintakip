@@ -1,7 +1,7 @@
 {
-  "name": "Avasya İzin Yönetim",
-  "short_name": "Avasya İzin",
-  "description": "Avasya Teknoloji kurumsal izin yönetim ve ortak takvim uygulaması",
+  "name": "AVASYA TEKNOLOJİ İzin Yönetim",
+  "short_name": "AVASYA İzin",
+  "description": "AVASYA TEKNOLOJİ kurumsal izin yönetim ve ortak takvim uygulaması",
   "start_url": "/panel",
   "scope": "/",
   "display": "standalone",
