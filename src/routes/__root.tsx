@@ -86,11 +86,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Avasya Teknoloji kurumsal izin yönetim ve ortak takvim uygulaması. İzin talepleri, onay süreçleri ve şirket genelinde ortak takvim tek platformda.",
       },
       { name: "author", content: "Avasya Teknoloji" },
-      { property: "og:title", content: "Avasya | İzin Yönetim Sistemi" },
+      { property: "og:title", content: "Avasya | İzin Yönetim ve Ortak Takvim" },
       {
         property: "og:description",
         content:
-          "Kurumsal izin talepleri ve şirket ortak takvimi tek panelde.",
+          "Avasya Teknoloji kurumsal izin yönetim ve ortak takvim uygulaması. İzin talepleri, onay süreçleri ve şirket genelinde ortak takvim tek platformda.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -98,6 +98,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "apple-mobile-web-app-title", content: "Avasya İzin" },
+      { name: "twitter:title", content: "Avasya | İzin Yönetim ve Ortak Takvim" },
+      { name: "twitter:description", content: "Avasya Teknoloji kurumsal izin yönetim ve ortak takvim uygulaması. İzin talepleri, onay süreçleri ve şirket genelinde ortak takvim tek platformda." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/40ac37e0-9151-49e0-9b20-8d158f8a7195/id-preview-95d36bcf--6fcad70b-53ab-4802-aea8-2de1182e0b10.lovable.app-1784788554385.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/40ac37e0-9151-49e0-9b20-8d158f8a7195/id-preview-95d36bcf--6fcad70b-53ab-4802-aea8-2de1182e0b10.lovable.app-1784788554385.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
