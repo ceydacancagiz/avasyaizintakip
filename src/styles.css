@@ -199,20 +199,26 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--muted-foreground);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--foreground);
   background: var(--secondary);
 }
 .rbc-month-view,
 .rbc-time-view {
-  border: 1px solid var(--border);
+  border: 2px solid var(--foreground);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow: visible;
   background: var(--card);
 }
 .rbc-day-bg + .rbc-day-bg,
 .rbc-month-row + .rbc-month-row,
-.rbc-header + .rbc-header {
-  border-color: var(--border);
+.rbc-header + .rbc-header,
+.rbc-time-content > * + * > *,
+.rbc-timeslot-group {
+  border-color: var(--foreground);
+  border-width: 2px;
+}
+.rbc-month-row {
+  overflow: visible;
 }
 .rbc-off-range-bg {
   background: var(--muted);
@@ -220,6 +226,23 @@
 }
 .rbc-today {
   background: color-mix(in oklab, var(--brand-red) 8%, transparent);
+}
+
+/* Netflix tarzı hover — gün kareleri */
+.rbc-month-view .rbc-day-bg {
+  transition: all 0.2s ease-out;
+  transform-origin: center;
+}
+.rbc-month-view .rbc-day-bg:hover {
+  transform: scale(1.1);
+  z-index: 10;
+  box-shadow: 0 20px 25px -5px oklch(0 0 0 / 0.25), 0 8px 10px -6px oklch(0 0 0 / 0.2);
+  background: var(--card);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+.rbc-month-view .rbc-row-bg {
+  overflow: visible;
 }
 .rbc-event {
   border: none !important;
