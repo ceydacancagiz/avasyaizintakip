@@ -109,7 +109,9 @@ function PanelPage() {
           label="Kalan İzin Günüm"
           value={`${profile?.kalan_izin_gunu ?? 0} / ${profile?.toplam_yillik_izin ?? 0}`}
           hint="Yıllık izin bakiyesi"
+          hintClassName="font-semibold text-[color:var(--success)]"
         />
+
         <StatCard
           icon={<Users />}
           label="Bugün İzinli"
