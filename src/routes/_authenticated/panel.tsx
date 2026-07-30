@@ -14,6 +14,7 @@ import { EmployeeFilter } from "@/components/EmployeeFilter";
 import { useApprovedLeaves, useProfiles } from "@/hooks/useLeaves";
 import { useAuth } from "@/hooks/useAuth";
 import {
+  LEAVE_TYPES,
   LEAVE_TYPE_LABEL,
   LEAVE_TYPE_STYLE,
   type LeaveTypeValue,
