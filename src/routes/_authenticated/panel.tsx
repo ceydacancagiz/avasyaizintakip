@@ -232,16 +232,18 @@ function StatCard({
   label,
   value,
   hint,
+  hintClassName,
   action,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   hint?: string;
+  hintClassName?: string;
   action?: React.ReactNode;
 }) {
   return (
-    <Card>
+    <Card className="border-2 border-foreground/90 shadow-sm">
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-2">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
@@ -254,7 +256,11 @@ function StatCard({
         </p>
         <p className="mt-1 text-2xl font-bold tracking-tight">{value}</p>
         {hint && (
-          <p className="mt-0.5 truncate text-xs text-muted-foreground">{hint}</p>
+          <p
+            className={`mt-0.5 truncate text-xs text-muted-foreground ${hintClassName ?? ""}`}
+          >
+            {hint}
+          </p>
         )}
       </CardContent>
     </Card>
@@ -265,10 +271,10 @@ function LegendRow() {
   return (
     <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-border/60 pt-3 text-xs text-muted-foreground">
       <span className="font-medium">Renk kodları:</span>
-      {(Object.keys(LEAVE_TYPE_STYLE) as LeaveTypeValue[]).map((k) => {
-        const s = LEAVE_TYPE_STYLE[k];
+      {LEAVE_TYPES.map((t) => {
+        const s = LEAVE_TYPE_STYLE[t.value as LeaveTypeValue];
         return (
-          <span key={k} className="flex items-center gap-1.5">
+          <span key={t.value} className="flex items-center gap-1.5">
             <span
               className="h-2.5 w-2.5 rounded-full"
               style={{ background: s.fg }}
