@@ -1,6 +1,7 @@
 import { addDays, eachDayOfInterval, isWeekend, format } from "date-fns";
 
-export const LEAVE_TYPES = [
+/** Tüm tipler (geçmiş kayıtlar için) */
+export const ALL_LEAVE_TYPES = [
   { value: "yillik", label: "Yıllık İzin" },
   { value: "ucretsiz", label: "Ücretsiz İzin" },
   { value: "saglik", label: "Sağlık İzni" },
@@ -8,10 +9,15 @@ export const LEAVE_TYPES = [
   { value: "diger", label: "Diğer" },
 ] as const;
 
-export type LeaveTypeValue = (typeof LEAVE_TYPES)[number]["value"];
+/** Yeni talepte seçilebilir tipler */
+export const LEAVE_TYPES = ALL_LEAVE_TYPES.filter(
+  (t) => t.value === "yillik" || t.value === "ucretsiz",
+);
+
+export type LeaveTypeValue = (typeof ALL_LEAVE_TYPES)[number]["value"];
 
 export const LEAVE_TYPE_LABEL: Record<LeaveTypeValue, string> = Object.fromEntries(
-  LEAVE_TYPES.map((t) => [t.value, t.label]),
+  ALL_LEAVE_TYPES.map((t) => [t.value, t.label]),
 ) as Record<LeaveTypeValue, string>;
 
 export const LEAVE_TYPE_STYLE: Record<
