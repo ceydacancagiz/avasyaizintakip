@@ -201,51 +201,80 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--muted-foreground);
-  border-bottom: 2px solid var(--foreground);
+  color: var(--foreground);
+  border-bottom: 1.5px solid var(--foreground) !important;
+  border-left: 1.5px solid var(--foreground) !important;
   background: var(--secondary);
+}
+.rbc-header:first-child {
+  border-left: none !important;
 }
 .rbc-month-view,
 .rbc-time-view {
-  border: 2px solid var(--foreground);
+  border: 1.5px solid var(--foreground);
   border-radius: var(--radius-lg);
-  overflow: visible;
+  overflow: hidden;
   background: var(--card);
 }
-.rbc-day-bg + .rbc-day-bg,
-.rbc-month-row + .rbc-month-row,
-.rbc-header + .rbc-header,
-.rbc-time-content > * + * > *,
-.rbc-timeslot-group {
-  border-color: var(--foreground);
-  border-width: 2px;
-}
 .rbc-month-row {
+  border-top: 1.5px solid var(--foreground) !important;
   overflow: visible;
 }
+.rbc-month-row:first-child {
+  border-top: none !important;
+}
+.rbc-day-bg {
+  border-left: 1.5px solid var(--foreground) !important;
+}
+.rbc-day-bg:first-child {
+  border-left: none !important;
+}
+.rbc-time-content > * + * > *,
+.rbc-timeslot-group,
+.rbc-time-header-content,
+.rbc-time-content {
+  border-color: var(--foreground) !important;
+}
 .rbc-off-range-bg {
-  background: var(--muted);
-  opacity: 0.4;
+  background: color-mix(in oklab, var(--muted) 70%, transparent);
 }
 .rbc-today {
-  background: color-mix(in oklab, var(--brand-red) 8%, transparent);
+  background: color-mix(in oklab, var(--brand-red) 8%, transparent) !important;
+}
+
+/* Katman düzeni: gün numaraları ve etkinlikler her zaman zeminin üstünde */
+.rbc-month-view .rbc-row-bg {
+  z-index: 0;
+  overflow: visible;
+}
+.rbc-month-view .rbc-row-content {
+  position: relative;
+  z-index: 3;
+  pointer-events: none;
+}
+.rbc-month-view .rbc-event,
+.rbc-month-view .rbc-show-more,
+.rbc-month-view .rbc-button-link {
+  pointer-events: auto;
 }
 
 /* Netflix tarzı hover — gün kareleri */
 .rbc-month-view .rbc-day-bg {
-  transition: all 0.2s ease-out;
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out,
+    background-color 0.2s ease-out;
   transform-origin: center;
 }
 .rbc-month-view .rbc-day-bg:hover {
-  transform: scale(1.1);
-  z-index: 10;
-  box-shadow: 0 20px 25px -5px oklch(0 0 0 / 0.25), 0 8px 10px -6px oklch(0 0 0 / 0.2);
-  background: var(--card);
+  transform: scale(1.06);
+  z-index: 2;
+  box-shadow:
+    0 18px 28px -12px oklch(0 0 0 / 0.35),
+    0 0 0 1.5px var(--foreground);
+  background: color-mix(in oklab, var(--brand-red) 5%, var(--card));
   border-radius: var(--radius-md);
   position: relative;
-}
-.rbc-month-view .rbc-row-bg {
-  overflow: visible;
 }
 .rbc-event {
   border: none !important;
@@ -263,13 +292,24 @@
   color: var(--brand-red);
   font-weight: 600;
   font-size: 0.75rem;
+  background: transparent;
 }
 .rbc-date-cell {
-  padding: 4px 6px;
+  padding: 4px 8px;
   font-size: 0.85rem;
-  color: var(--muted-foreground);
-}
-.rbc-date-cell.rbc-now {
+  font-weight: 600;
   color: var(--brand-red);
-  font-weight: 700;
+}
+.rbc-date-cell .rbc-button-link {
+  color: var(--brand-red);
+}
+.rbc-off-range .rbc-button-link,
+.rbc-off-range {
+  color: color-mix(in oklab, var(--brand-red) 45%, transparent) !important;
+}
+.rbc-date-cell.rbc-now .rbc-button-link {
+  color: var(--brand-red);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
