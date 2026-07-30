@@ -239,7 +239,7 @@
   background: color-mix(in oklab, var(--muted) 70%, transparent);
 }
 .rbc-today {
-  background: color-mix(in oklab, var(--brand-red) 8%, transparent);
+  background: color-mix(in oklab, var(--brand-red) 8%, transparent) !important;
 }
 
 /* Katman düzeni: gün numaraları ve etkinlikler her zaman zeminin üstünde */
