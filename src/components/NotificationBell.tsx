@@ -14,6 +14,7 @@ import {
   requestNotificationPermission,
 } from "@/hooks/useNotifications";
 import { useAuth } from "@/hooks/useAuth";
+import { enablePush } from "@/lib/push-client";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import { useQueryClient } from "@tanstack/react-query";
@@ -30,11 +31,17 @@ export function NotificationBell() {
   );
 
   useEffect(() => {
-    if (perm === "default") {
-      // Best-effort auto prompt on first mount
-      requestNotificationPermission().then((p) => setPerm(p as NotificationPermission));
+    if (!user) return;
+    if (Notification.permission === "granted") {
+      // keep the device subscription fresh
+      enablePush(user.id).catch((e) => console.error("push enable failed", e));
+    } else if (perm === "default") {
+      requestNotificationPermission().then(async (p) => {
+        setPerm(p as NotificationPermission);
+        if (p === "granted") await enablePush(user.id).catch(() => undefined);
+      });
     }
-  }, [perm]);
+  }, [perm, user]);
 
 
   const refresh = () =>
