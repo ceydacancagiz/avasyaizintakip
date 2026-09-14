@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAllLeaves, useProfiles } from "@/hooks/useLeaves";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { sendPush } from "@/lib/push.functions";
 import {
   Card,
   CardContent,
@@ -79,12 +80,22 @@ function OnayPaneliPage() {
       description: `${nameById.get(l.user_id)} · ${l.toplam_gun} gün`,
     });
     // Notify the requesting employee
+    const okTitle = "İzin talebiniz onaylandı ✅";
+    const okBody = `${LEAVE_TYPE_LABEL[l.izin_turu]} · ${formatDateTR(l.baslangic_tarihi)} – ${formatDateTR(l.bitis_tarihi)} · ${l.toplam_gun} gün`;
     await supabase.from("notifications").insert({
       user_id: l.user_id,
-      title: "İzin talebiniz onaylandı ✅",
-      body: `${LEAVE_TYPE_LABEL[l.izin_turu]} · ${formatDateTR(l.baslangic_tarihi)} – ${formatDateTR(l.bitis_tarihi)} · ${l.toplam_gun} gün`,
+      title: okTitle,
+      body: okBody,
       link: "/taleplerim",
     });
+    await sendPush({
+      data: {
+        userIds: [l.user_id],
+        title: okTitle,
+        body: okBody,
+        link: "/taleplerim",
+      },
+    }).catch(() => undefined);
     qc.invalidateQueries({ queryKey: ["leaves"] });
     qc.invalidateQueries({ queryKey: ["profiles"] });
   };
@@ -108,12 +119,22 @@ function OnayPaneliPage() {
     if (error) return toast.error(error.message);
     toast.success("Talep reddedildi");
     // Notify the requesting employee
+    const noTitle = "İzin talebiniz reddedildi ❌";
+    const noBody = `${LEAVE_TYPE_LABEL[rejectFor.izin_turu]} · ${formatDateTR(rejectFor.baslangic_tarihi)} – ${formatDateTR(rejectFor.bitis_tarihi)} · Neden: ${rejectReason.trim()}`;
     await supabase.from("notifications").insert({
       user_id: rejectFor.user_id,
-      title: "İzin talebiniz reddedildi ❌",
-      body: `${LEAVE_TYPE_LABEL[rejectFor.izin_turu]} · ${formatDateTR(rejectFor.baslangic_tarihi)} – ${formatDateTR(rejectFor.bitis_tarihi)} · Neden: ${rejectReason.trim()}`,
+      title: noTitle,
+      body: noBody,
       link: "/taleplerim",
     });
+    await sendPush({
+      data: {
+        userIds: [rejectFor.user_id],
+        title: noTitle,
+        body: noBody,
+        link: "/taleplerim",
+      },
+    }).catch(() => undefined);
     qc.invalidateQueries({ queryKey: ["leaves"] });
     setRejectFor(null);
     setRejectReason("");
