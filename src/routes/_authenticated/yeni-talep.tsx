@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useHolidays } from "@/hooks/useLeaves";
 import { useQueryClient } from "@tanstack/react-query";
+import { sendPush } from "@/lib/push.functions";
 
 import {
   Card,
@@ -120,6 +121,9 @@ function YeniTalep() {
             link: "/onay-paneli",
           })),
         );
+        await sendPush({
+          data: { userIds: managerIds, title, body, link: "/onay-paneli" },
+        });
       }
     } catch (e) {
       console.error("notification insert failed", e);
