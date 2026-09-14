@@ -87,7 +87,9 @@ export function NotificationBell() {
               variant="outline"
               className="h-7 shrink-0 text-xs"
               onClick={async () => {
-                const p = await requestNotificationPermission();
+                const p = user
+                  ? await enablePush(user.id)
+                  : await requestNotificationPermission();
                 setPerm(p as NotificationPermission);
               }}
             >
