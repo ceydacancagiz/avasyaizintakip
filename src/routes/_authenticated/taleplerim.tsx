@@ -118,6 +118,15 @@ function TaleplerimPage() {
                         <StatusBadge status={l.durum} reason={l.red_nedeni} />
                       </TableCell>
                       <TableCell className="text-right">
+                        {l.durum === "onaylandi" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setPrintLeave(l)}
+                          >
+                            <Printer className="mr-1 h-4 w-4" /> Yazdır
+                          </Button>
+                        )}
                         {l.durum === "beklemede" && (
                           <Button
                             size="sm"
