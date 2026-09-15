@@ -124,6 +124,9 @@ function ProfilPage() {
       <Card>
         <CardHeader>
           <CardTitle>Bilgilerimi Güncelle</CardTitle>
+          <CardDescription>
+            Bu bilgiler izin formuna otomatik yazılır; bir kez doldurmanız yeterli.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={save} className="space-y-4">
