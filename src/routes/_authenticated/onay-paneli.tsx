@@ -35,8 +35,10 @@ import {
 } from "@/components/ui/dialog";
 import { LEAVE_TYPE_LABEL, formatDateTR } from "@/lib/leave-utils";
 import { toast } from "sonner";
-import { Check, X, ShieldCheck } from "lucide-react";
-import type { LeaveRequest } from "@/hooks/useLeaves";
+import { Check, X, ShieldCheck, Printer } from "lucide-react";
+import type { LeaveRequest, Profile } from "@/hooks/useLeaves";
+import { LeaveFormPrint } from "@/components/LeaveFormPrint";
+import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/_authenticated/onay-paneli")({
   ssr: false,
@@ -53,10 +55,18 @@ function OnayPaneliPage() {
   const [rejectFor, setRejectFor] = useState<LeaveRequest | null>(null);
   const [rejectReason, setRejectReason] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
+  const [printLeave, setPrintLeave] = useState<LeaveRequest | null>(null);
+  const [detail, setDetail] = useState<Profile | null>(null);
 
   useEffect(() => {
     if (!loading && !isManager) nav({ to: "/panel", replace: true });
   }, [loading, isManager, nav]);
+
+  const profileById = useMemo(() => {
+    const m = new Map<string, Profile>();
+    profiles.forEach((p) => m.set(p.id, p));
+    return m;
+  }, [profiles]);
 
   const nameById = useMemo(() => {
     const m = new Map<string, string>();
@@ -178,6 +188,8 @@ function OnayPaneliPage() {
               <RequestTable
                 items={pending}
                 nameById={nameById}
+                profileById={profileById}
+                onSelectProfile={setDetail}
                 actions={(l) => (
                   <div className="flex justify-end gap-2">
                     <Button
@@ -276,12 +288,16 @@ function OnayPaneliPage() {
 function RequestTable({
   items,
   nameById,
+  profileById,
+  onSelectProfile,
   actions,
   empty,
   showReason,
 }: {
   items: LeaveRequest[];
   nameById: Map<string, string>;
+  profileById?: Map<string, Profile>;
+  onSelectProfile?: (p: Profile) => void;
   actions?: (l: LeaveRequest) => React.ReactNode;
   empty: string;
   showReason?: boolean;
@@ -296,6 +312,7 @@ function RequestTable({
         <TableHeader>
           <TableRow>
             <TableHead>Çalışan</TableHead>
+            {profileById && <TableHead className="text-center">Kalan İzin</TableHead>}
             <TableHead>Tarih Aralığı</TableHead>
             <TableHead>Tür</TableHead>
             <TableHead className="text-center">Gün</TableHead>
@@ -304,11 +321,28 @@ function RequestTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((l) => (
+          {items.map((l) => {
+            const p = profileById?.get(l.user_id);
+            return (
             <TableRow key={l.id}>
               <TableCell className="font-medium">
-                {nameById.get(l.user_id) ?? "—"}
+                {p && onSelectProfile ? (
+                  <button
+                    type="button"
+                    className="text-left underline-offset-4 hover:text-brand-red hover:underline"
+                    onClick={() => onSelectProfile(p)}
+                  >
+                    {p.ad_soyad}
+                  </button>
+                ) : (
+                  (nameById.get(l.user_id) ?? "—")
+                )}
               </TableCell>
+              {profileById && (
+                <TableCell className="text-center text-sm font-semibold">
+                  {p ? `${p.kalan_izin_gunu} / ${p.toplam_yillik_izin}` : "—"}
+                </TableCell>
+              )}
               <TableCell className="whitespace-nowrap text-sm">
                 {formatDateTR(l.baslangic_tarihi)} – {formatDateTR(l.bitis_tarihi)}
               </TableCell>

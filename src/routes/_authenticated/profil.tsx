@@ -26,6 +26,12 @@ function ProfilPage() {
   const { profile, isManager, refresh } = useAuth();
   const [adSoyad, setAdSoyad] = useState(profile?.ad_soyad ?? "");
   const [departman, setDepartman] = useState(profile?.departman ?? "");
+  const [personelKodu, setPersonelKodu] = useState(profile?.personel_kodu ?? "");
+  const [tcKimlik, setTcKimlik] = useState(profile?.tc_kimlik ?? "");
+  const [iseGiris, setIseGiris] = useState(profile?.ise_giris_tarihi ?? "");
+  const [gorev, setGorev] = useState(profile?.gorev ?? "");
+  const [izinAdresi, setIzinAdresi] = useState(profile?.izin_adresi ?? "");
+  const [izinTelefonu, setIzinTelefonu] = useState(profile?.izin_telefonu ?? "");
   const [saving, setSaving] = useState(false);
 
   const save = async (e: React.FormEvent) => {
@@ -34,7 +40,16 @@ function ProfilPage() {
     setSaving(true);
     const { error } = await supabase
       .from("profiles")
-      .update({ ad_soyad: adSoyad, departman })
+      .update({
+        ad_soyad: adSoyad,
+        departman,
+        personel_kodu: personelKodu || null,
+        tc_kimlik: tcKimlik || null,
+        ise_giris_tarihi: iseGiris || null,
+        gorev: gorev || null,
+        izin_adresi: izinAdresi || null,
+        izin_telefonu: izinTelefonu || null,
+      })
       .eq("id", profile.id);
     setSaving(false);
     if (error) return toast.error(error.message);
@@ -109,6 +124,9 @@ function ProfilPage() {
       <Card>
         <CardHeader>
           <CardTitle>Bilgilerimi Güncelle</CardTitle>
+          <CardDescription>
+            Bu bilgiler izin formuna otomatik yazılır; bir kez doldurmanız yeterli.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={save} className="space-y-4">
@@ -132,6 +150,57 @@ function ProfilPage() {
                 value={departman}
                 onChange={(e) => setDepartman(e.target.value)}
               />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="pk">Personel Kodu</Label>
+                <Input
+                  id="pk"
+                  value={personelKodu}
+                  onChange={(e) => setPersonelKodu(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tc">SSK Sicil No - T.C. Kimlik</Label>
+                <Input
+                  id="tc"
+                  value={tcKimlik}
+                  onChange={(e) => setTcKimlik(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ig">İşe Giriş Tarihi</Label>
+                <Input
+                  id="ig"
+                  type="date"
+                  value={iseGiris}
+                  onChange={(e) => setIseGiris(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="gv">Görevi</Label>
+                <Input
+                  id="gv"
+                  value={gorev}
+                  onChange={(e) => setGorev(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label htmlFor="ia">İzindeki Adresi</Label>
+                <Input
+                  id="ia"
+                  value={izinAdresi}
+                  onChange={(e) => setIzinAdresi(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="it">İzindeki Telefonu</Label>
+                <Input
+                  id="it"
+                  value={izinTelefonu}
+                  onChange={(e) => setIzinTelefonu(e.target.value)}
+                />
+              </div>
             </div>
             <div className="flex justify-end">
               <Button type="submit" disabled={saving}>

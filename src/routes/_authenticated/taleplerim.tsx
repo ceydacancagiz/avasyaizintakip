@@ -22,7 +22,10 @@ import {
 } from "@/components/ui/table";
 import { LEAVE_TYPE_LABEL, STATUS_LABEL, formatDateTR } from "@/lib/leave-utils";
 import { toast } from "sonner";
-import { PlusCircle, Trash2, FileText } from "lucide-react";
+import { PlusCircle, Trash2, FileText, Printer } from "lucide-react";
+import { useState } from "react";
+import { LeaveFormPrint } from "@/components/LeaveFormPrint";
+import type { LeaveRequest } from "@/hooks/useLeaves";
 
 export const Route = createFileRoute("/_authenticated/taleplerim")({
   ssr: false,
@@ -30,9 +33,10 @@ export const Route = createFileRoute("/_authenticated/taleplerim")({
 });
 
 function TaleplerimPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { data: leaves = [], isLoading } = useMyLeaves(user?.id);
   const qc = useQueryClient();
+  const [printLeave, setPrintLeave] = useState<LeaveRequest | null>(null);
 
   const cancel = async (id: string) => {
     const { error } = await supabase.from("leave_requests").delete().eq("id", id);
@@ -114,6 +118,15 @@ function TaleplerimPage() {
                         <StatusBadge status={l.durum} reason={l.red_nedeni} />
                       </TableCell>
                       <TableCell className="text-right">
+                        {l.durum === "onaylandi" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setPrintLeave(l)}
+                          >
+                            <Printer className="mr-1 h-4 w-4" /> Yazdır
+                          </Button>
+                        )}
                         {l.durum === "beklemede" && (
                           <Button
                             size="sm"
@@ -133,6 +146,13 @@ function TaleplerimPage() {
           )}
         </CardContent>
       </Card>
+
+      <LeaveFormPrint
+        open={!!printLeave}
+        onOpenChange={(o) => !o && setPrintLeave(null)}
+        leave={printLeave}
+        profile={profile}
+      />
     </div>
   );
 }

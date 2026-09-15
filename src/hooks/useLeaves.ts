@@ -9,6 +9,12 @@ export type Profile = {
   departman: string | null;
   toplam_yillik_izin: number;
   kalan_izin_gunu: number;
+  personel_kodu?: string | null;
+  tc_kimlik?: string | null;
+  ise_giris_tarihi?: string | null;
+  gorev?: string | null;
+  izin_adresi?: string | null;
+  izin_telefonu?: string | null;
 };
 
 export type LeaveRequest = {

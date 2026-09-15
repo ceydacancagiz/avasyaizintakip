@@ -113,8 +113,14 @@ export type Database = {
           created_at: string
           departman: string | null
           email: string
+          gorev: string | null
           id: string
+          ise_giris_tarihi: string | null
+          izin_adresi: string | null
+          izin_telefonu: string | null
           kalan_izin_gunu: number
+          personel_kodu: string | null
+          tc_kimlik: string | null
           toplam_yillik_izin: number
         }
         Insert: {
@@ -122,8 +128,14 @@ export type Database = {
           created_at?: string
           departman?: string | null
           email: string
+          gorev?: string | null
           id: string
+          ise_giris_tarihi?: string | null
+          izin_adresi?: string | null
+          izin_telefonu?: string | null
           kalan_izin_gunu?: number
+          personel_kodu?: string | null
+          tc_kimlik?: string | null
           toplam_yillik_izin?: number
         }
         Update: {
@@ -131,8 +143,14 @@ export type Database = {
           created_at?: string
           departman?: string | null
           email?: string
+          gorev?: string | null
           id?: string
+          ise_giris_tarihi?: string | null
+          izin_adresi?: string | null
+          izin_telefonu?: string | null
           kalan_izin_gunu?: number
+          personel_kodu?: string | null
+          tc_kimlik?: string | null
           toplam_yillik_izin?: number
         }
         Relationships: []

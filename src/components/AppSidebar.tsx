@@ -24,7 +24,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
-const mainItems = [
+const baseItems = [
   { title: "Panel", url: "/panel", icon: LayoutDashboard },
   { title: "Ortak Takvim", url: "/takvim", icon: CalendarClock },
   { title: "Yeni İzin Talebi", url: "/yeni-talep", icon: PlusCircle },
@@ -36,6 +36,9 @@ export function AppSidebar() {
   const nav = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (u: string) => pathname === u || pathname.startsWith(u + "/");
+  const mainItems = isManager
+    ? baseItems.filter((i) => i.url !== "/taleplerim")
+    : baseItems;
 
   const handleSignOut = async () => {
     await signOut();
