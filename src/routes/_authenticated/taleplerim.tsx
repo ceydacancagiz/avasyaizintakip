@@ -146,6 +146,13 @@ function TaleplerimPage() {
           )}
         </CardContent>
       </Card>
+
+      <LeaveFormPrint
+        open={!!printLeave}
+        onOpenChange={(o) => !o && setPrintLeave(null)}
+        leave={printLeave}
+        profile={profile}
+      />
     </div>
   );
 }
