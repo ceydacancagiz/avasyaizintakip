@@ -35,8 +35,10 @@ import {
 } from "@/components/ui/dialog";
 import { LEAVE_TYPE_LABEL, formatDateTR } from "@/lib/leave-utils";
 import { toast } from "sonner";
-import { Check, X, ShieldCheck } from "lucide-react";
-import type { LeaveRequest } from "@/hooks/useLeaves";
+import { Check, X, ShieldCheck, Printer } from "lucide-react";
+import type { LeaveRequest, Profile } from "@/hooks/useLeaves";
+import { LeaveFormPrint } from "@/components/LeaveFormPrint";
+import { Progress } from "@/components/ui/progress";
 
 export const Route = createFileRoute("/_authenticated/onay-paneli")({
   ssr: false,

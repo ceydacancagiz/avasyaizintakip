@@ -36,6 +36,9 @@ export function AppSidebar() {
   const nav = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isActive = (u: string) => pathname === u || pathname.startsWith(u + "/");
+  const mainItems = isManager
+    ? baseItems.filter((i) => i.url !== "/taleplerim")
+    : baseItems;
 
   const handleSignOut = async () => {
     await signOut();
