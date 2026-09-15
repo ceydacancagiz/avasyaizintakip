@@ -313,3 +313,39 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* --- İzin formu yazdırma --- */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #izin-form-print,
+  #izin-form-print * {
+    visibility: visible !important;
+  }
+  #izin-form-print {
+    position: fixed;
+    inset: 0;
+    margin: 0;
+    padding: 16px;
+    width: 100%;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .no-print,
+  [data-slot="dialog-close"] {
+    display: none !important;
+  }
+  [data-slot="dialog-overlay"] {
+    background: #fff !important;
+  }
+  [data-slot="dialog-content"] {
+    position: static !important;
+    transform: none !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+}
