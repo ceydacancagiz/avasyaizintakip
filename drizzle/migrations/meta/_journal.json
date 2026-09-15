@@ -8,6 +8,13 @@
       "when": 1789365233537,
       "tag": "0000_create_push_subscriptions",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789466234467,
+      "tag": "0001_add_profile_form_fields",
+      "breakpoints": true
     }
   ]
 }
