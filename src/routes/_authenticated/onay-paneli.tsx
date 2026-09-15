@@ -288,12 +288,16 @@ function OnayPaneliPage() {
 function RequestTable({
   items,
   nameById,
+  profileById,
+  onSelectProfile,
   actions,
   empty,
   showReason,
 }: {
   items: LeaveRequest[];
   nameById: Map<string, string>;
+  profileById?: Map<string, Profile>;
+  onSelectProfile?: (p: Profile) => void;
   actions?: (l: LeaveRequest) => React.ReactNode;
   empty: string;
   showReason?: boolean;
@@ -308,6 +312,7 @@ function RequestTable({
         <TableHeader>
           <TableRow>
             <TableHead>Çalışan</TableHead>
+            {profileById && <TableHead className="text-center">Kalan İzin</TableHead>}
             <TableHead>Tarih Aralığı</TableHead>
             <TableHead>Tür</TableHead>
             <TableHead className="text-center">Gün</TableHead>
@@ -316,11 +321,28 @@ function RequestTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map((l) => (
+          {items.map((l) => {
+            const p = profileById?.get(l.user_id);
+            return (
             <TableRow key={l.id}>
               <TableCell className="font-medium">
-                {nameById.get(l.user_id) ?? "—"}
+                {p && onSelectProfile ? (
+                  <button
+                    type="button"
+                    className="text-left underline-offset-4 hover:text-brand-red hover:underline"
+                    onClick={() => onSelectProfile(p)}
+                  >
+                    {p.ad_soyad}
+                  </button>
+                ) : (
+                  (nameById.get(l.user_id) ?? "—")
+                )}
               </TableCell>
+              {profileById && (
+                <TableCell className="text-center text-sm font-semibold">
+                  {p ? `${p.kalan_izin_gunu} / ${p.toplam_yillik_izin}` : "—"}
+                </TableCell>
+              )}
               <TableCell className="whitespace-nowrap text-sm">
                 {formatDateTR(l.baslangic_tarihi)} – {formatDateTR(l.bitis_tarihi)}
               </TableCell>
