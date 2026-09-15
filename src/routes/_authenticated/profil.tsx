@@ -26,6 +26,12 @@ function ProfilPage() {
   const { profile, isManager, refresh } = useAuth();
   const [adSoyad, setAdSoyad] = useState(profile?.ad_soyad ?? "");
   const [departman, setDepartman] = useState(profile?.departman ?? "");
+  const [personelKodu, setPersonelKodu] = useState(profile?.personel_kodu ?? "");
+  const [tcKimlik, setTcKimlik] = useState(profile?.tc_kimlik ?? "");
+  const [iseGiris, setIseGiris] = useState(profile?.ise_giris_tarihi ?? "");
+  const [gorev, setGorev] = useState(profile?.gorev ?? "");
+  const [izinAdresi, setIzinAdresi] = useState(profile?.izin_adresi ?? "");
+  const [izinTelefonu, setIzinTelefonu] = useState(profile?.izin_telefonu ?? "");
   const [saving, setSaving] = useState(false);
 
   const save = async (e: React.FormEvent) => {
@@ -34,7 +40,16 @@ function ProfilPage() {
     setSaving(true);
     const { error } = await supabase
       .from("profiles")
-      .update({ ad_soyad: adSoyad, departman })
+      .update({
+        ad_soyad: adSoyad,
+        departman,
+        personel_kodu: personelKodu || null,
+        tc_kimlik: tcKimlik || null,
+        ise_giris_tarihi: iseGiris || null,
+        gorev: gorev || null,
+        izin_adresi: izinAdresi || null,
+        izin_telefonu: izinTelefonu || null,
+      })
       .eq("id", profile.id);
     setSaving(false);
     if (error) return toast.error(error.message);
