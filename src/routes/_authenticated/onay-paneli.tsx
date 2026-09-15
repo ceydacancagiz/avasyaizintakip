@@ -55,10 +55,18 @@ function OnayPaneliPage() {
   const [rejectFor, setRejectFor] = useState<LeaveRequest | null>(null);
   const [rejectReason, setRejectReason] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
+  const [printLeave, setPrintLeave] = useState<LeaveRequest | null>(null);
+  const [detail, setDetail] = useState<Profile | null>(null);
 
   useEffect(() => {
     if (!loading && !isManager) nav({ to: "/panel", replace: true });
   }, [loading, isManager, nav]);
+
+  const profileById = useMemo(() => {
+    const m = new Map<string, Profile>();
+    profiles.forEach((p) => m.set(p.id, p));
+    return m;
+  }, [profiles]);
 
   const nameById = useMemo(() => {
     const m = new Map<string, string>();
