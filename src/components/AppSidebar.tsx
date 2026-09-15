@@ -24,7 +24,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
-const mainItems = [
+const baseItems = [
   { title: "Panel", url: "/panel", icon: LayoutDashboard },
   { title: "Ortak Takvim", url: "/takvim", icon: CalendarClock },
   { title: "Yeni İzin Talebi", url: "/yeni-talep", icon: PlusCircle },
