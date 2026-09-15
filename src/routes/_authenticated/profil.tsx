@@ -151,6 +151,57 @@ function ProfilPage() {
                 onChange={(e) => setDepartman(e.target.value)}
               />
             </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="pk">Personel Kodu</Label>
+                <Input
+                  id="pk"
+                  value={personelKodu}
+                  onChange={(e) => setPersonelKodu(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tc">SSK Sicil No - T.C. Kimlik</Label>
+                <Input
+                  id="tc"
+                  value={tcKimlik}
+                  onChange={(e) => setTcKimlik(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ig">İşe Giriş Tarihi</Label>
+                <Input
+                  id="ig"
+                  type="date"
+                  value={iseGiris}
+                  onChange={(e) => setIseGiris(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="gv">Görevi</Label>
+                <Input
+                  id="gv"
+                  value={gorev}
+                  onChange={(e) => setGorev(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2 sm:col-span-2">
+                <Label htmlFor="ia">İzindeki Adresi</Label>
+                <Input
+                  id="ia"
+                  value={izinAdresi}
+                  onChange={(e) => setIzinAdresi(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="it">İzindeki Telefonu</Label>
+                <Input
+                  id="it"
+                  value={izinTelefonu}
+                  onChange={(e) => setIzinTelefonu(e.target.value)}
+                />
+              </div>
+            </div>
             <div className="flex justify-end">
               <Button type="submit" disabled={saving}>
                 {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
