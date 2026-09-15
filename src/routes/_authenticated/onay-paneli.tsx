@@ -188,6 +188,8 @@ function OnayPaneliPage() {
               <RequestTable
                 items={pending}
                 nameById={nameById}
+                profileById={profileById}
+                onSelectProfile={setDetail}
                 actions={(l) => (
                   <div className="flex justify-end gap-2">
                     <Button
