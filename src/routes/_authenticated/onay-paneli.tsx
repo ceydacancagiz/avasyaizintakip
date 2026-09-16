@@ -294,6 +294,58 @@ function OnayPaneliPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={!!detail} onOpenChange={(o) => !o && setDetail(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{detail?.ad_soyad}</DialogTitle>
+            <DialogDescription>İzin hakkı durumu</DialogDescription>
+          </DialogHeader>
+          {detail && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-3 text-center">
+                <div className="rounded-lg border-2 border-foreground/90 p-3">
+                  <div className="text-xs text-muted-foreground">Toplam Hak</div>
+                  <div className="text-xl font-bold">{detail.toplam_yillik_izin}</div>
+                </div>
+                <div className="rounded-lg border-2 border-foreground/90 p-3">
+                  <div className="text-xs text-muted-foreground">Kullanılan</div>
+                  <div className="text-xl font-bold">
+                    {detail.toplam_yillik_izin - detail.kalan_izin_gunu}
+                  </div>
+                </div>
+                <div className="rounded-lg border-2 border-foreground/90 p-3">
+                  <div className="text-xs text-muted-foreground">Kalan</div>
+                  <div className="text-xl font-bold text-[color:var(--success)]">
+                    {detail.kalan_izin_gunu}
+                  </div>
+                </div>
+              </div>
+              <Progress
+                value={
+                  detail.toplam_yillik_izin > 0
+                    ? ((detail.toplam_yillik_izin - detail.kalan_izin_gunu) /
+                        detail.toplam_yillik_izin) *
+                      100
+                    : 0
+                }
+              />
+              {detail.departman && (
+                <p className="text-sm text-muted-foreground">
+                  Departman: {detail.departman}
+                </p>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <LeaveFormPrint
+        open={!!printLeave}
+        onOpenChange={(o) => !o && setPrintLeave(null)}
+        leave={printLeave}
+        profile={printLeave ? profileById.get(printLeave.user_id) : null}
+      />
     </div>
   );
 }
