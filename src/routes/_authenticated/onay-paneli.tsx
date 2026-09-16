@@ -221,7 +221,20 @@ function OnayPaneliPage() {
               <CardTitle>Onaylanmış Talepler</CardTitle>
             </CardHeader>
             <CardContent>
-              <RequestTable items={approved} nameById={nameById} empty="Kayıt yok" />
+              <RequestTable
+                items={approved}
+                nameById={nameById}
+                profileById={profileById}
+                onSelectProfile={setDetail}
+                empty="Kayıt yok"
+                actions={(l) => (
+                  <div className="flex justify-end">
+                    <Button size="sm" variant="outline" onClick={() => setPrintLeave(l)}>
+                      <Printer className="mr-1 h-4 w-4" /> Yazdır
+                    </Button>
+                  </div>
+                )}
+              />
             </CardContent>
           </Card>
         </TabsContent>
