@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { LEAVE_TYPE_LABEL, STATUS_LABEL, formatDateTR } from "@/lib/leave-utils";
 import { toast } from "sonner";
-import { PlusCircle, Trash2, FileText, Printer } from "lucide-react";
+import { PlusCircle, Trash2, FileText, Printer, Eye } from "lucide-react";
 import { useState } from "react";
 import { LeaveFormPrint } from "@/components/LeaveFormPrint";
 import type { LeaveRequest } from "@/hooks/useLeaves";
@@ -37,6 +37,7 @@ function TaleplerimPage() {
   const { data: leaves = [], isLoading } = useMyLeaves(user?.id);
   const qc = useQueryClient();
   const [printLeave, setPrintLeave] = useState<LeaveRequest | null>(null);
+  const [autoPrint, setAutoPrint] = useState(false);
 
   const cancel = async (id: string) => {
     const { error } = await supabase.from("leave_requests").delete().eq("id", id);
@@ -165,6 +166,7 @@ function TaleplerimPage() {
         onOpenChange={(o) => !o && setPrintLeave(null)}
         leave={printLeave}
         profile={profile}
+        autoPrint={autoPrint}
       />
     </div>
   );
