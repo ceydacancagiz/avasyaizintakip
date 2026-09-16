@@ -355,7 +355,8 @@ function RequestTable({
               </TableCell>
               {actions && <TableCell>{actions(l)}</TableCell>}
             </TableRow>
-          ))}
+            );
+          })}
         </TableBody>
       </Table>
     </div>
