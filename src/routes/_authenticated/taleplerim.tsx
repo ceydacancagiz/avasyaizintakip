@@ -117,12 +117,25 @@ function TaleplerimPage() {
                       <TableCell>
                         <StatusBadge status={l.durum} reason={l.red_nedeni} />
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="space-x-2 text-right">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setAutoPrint(false);
+                            setPrintLeave(l);
+                          }}
+                        >
+                          <Eye className="mr-1 h-4 w-4" /> Görüntüle
+                        </Button>
                         {l.durum === "onaylandi" && (
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => setPrintLeave(l)}
+                            onClick={() => {
+                              setAutoPrint(true);
+                              setPrintLeave(l);
+                            }}
                           >
                             <Printer className="mr-1 h-4 w-4" /> Yazdır
                           </Button>
