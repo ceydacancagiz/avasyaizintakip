@@ -139,6 +139,11 @@ export function LeaveFormPrint({
   const save = async () => {
     if (!canSave || !profile) return;
     setSaving(true);
+    // "dd.MM.yyyy" -> "yyyy-MM-dd"
+    const iso = (v: string) => {
+      const m = v.trim().match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+      return m ? `${m[3]}-${m[2]}-${m[1]}` : null;
+    };
     const { error } = await supabase
       .from("profiles")
       .update({
@@ -146,6 +151,7 @@ export function LeaveFormPrint({
         departman: state.departman || null,
         personel_kodu: state.personel_kodu || null,
         tc_kimlik: state.tc_kimlik || null,
+        ise_giris_tarihi: iso(state.ise_giris_tarihi),
         gorev: state.gorev || null,
         izin_adresi: state.izin_adresi || null,
         izin_telefonu: state.izin_telefonu || null,
