@@ -32,6 +32,21 @@ export type Database = {
         }
         Relationships: []
       }
+      initial_leave_balances: {
+        Row: {
+          email: string
+          kalan: number
+        }
+        Insert: {
+          email: string
+          kalan: number
+        }
+        Update: {
+          email?: string
+          kalan?: number
+        }
+        Relationships: []
+      }
       leave_requests: {
         Row: {
           aciklama: string | null
@@ -118,9 +133,11 @@ export type Database = {
           ise_giris_tarihi: string | null
           izin_adresi: string | null
           izin_telefonu: string | null
+          kalan_izin: number | null
           kalan_izin_gunu: number
           personel_kodu: string | null
           tc_kimlik: string | null
+          toplam_izin: number | null
           toplam_yillik_izin: number
         }
         Insert: {
@@ -133,9 +150,11 @@ export type Database = {
           ise_giris_tarihi?: string | null
           izin_adresi?: string | null
           izin_telefonu?: string | null
+          kalan_izin?: number | null
           kalan_izin_gunu?: number
           personel_kodu?: string | null
           tc_kimlik?: string | null
+          toplam_izin?: number | null
           toplam_yillik_izin?: number
         }
         Update: {
@@ -148,9 +167,11 @@ export type Database = {
           ise_giris_tarihi?: string | null
           izin_adresi?: string | null
           izin_telefonu?: string | null
+          kalan_izin?: number | null
           kalan_izin_gunu?: number
           personel_kodu?: string | null
           tc_kimlik?: string | null
+          toplam_izin?: number | null
           toplam_yillik_izin?: number
         }
         Relationships: []

@@ -33,7 +33,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { LEAVE_TYPE_LABEL, formatDateTR } from "@/lib/leave-utils";
+import {
+  LEAVE_TYPE_LABEL,
+  formatDateTR,
+  fmtDays,
+  remainingDays,
+  totalLeaveDays,
+} from "@/lib/leave-utils";
 import { toast } from "sonner";
 import { Check, X, ShieldCheck, Printer } from "lucide-react";
 import type { LeaveRequest, Profile } from "@/hooks/useLeaves";
@@ -306,27 +312,35 @@ function OnayPaneliPage() {
               <div className="grid grid-cols-3 gap-3 text-center">
                 <div className="rounded-lg border-2 border-foreground/90 p-3">
                   <div className="text-xs text-muted-foreground">Toplam Hak</div>
-                  <div className="text-xl font-bold">{detail.toplam_yillik_izin}</div>
+                  <div className="text-xl font-bold">
+                    {fmtDays(totalLeaveDays(detail))}
+                  </div>
                 </div>
                 <div className="rounded-lg border-2 border-foreground/90 p-3">
                   <div className="text-xs text-muted-foreground">Kullanılan</div>
                   <div className="text-xl font-bold">
-                    {detail.toplam_yillik_izin - detail.kalan_izin_gunu}
+                    {fmtDays(totalLeaveDays(detail) - remainingDays(detail))}
                   </div>
                 </div>
                 <div className="rounded-lg border-2 border-foreground/90 p-3">
                   <div className="text-xs text-muted-foreground">Kalan</div>
                   <div className="text-xl font-bold text-[color:var(--success)]">
-                    {detail.kalan_izin_gunu}
+                    {fmtDays(remainingDays(detail))}
                   </div>
                 </div>
               </div>
               <Progress
                 value={
-                  detail.toplam_yillik_izin > 0
-                    ? ((detail.toplam_yillik_izin - detail.kalan_izin_gunu) /
-                        detail.toplam_yillik_izin) *
-                      100
+                  totalLeaveDays(detail) > 0
+                    ? Math.max(
+                        0,
+                        Math.min(
+                          100,
+                          ((totalLeaveDays(detail) - remainingDays(detail)) /
+                            totalLeaveDays(detail)) *
+                            100,
+                        ),
+                      )
                     : 0
                 }
               />
@@ -405,7 +419,7 @@ function RequestTable({
               </TableCell>
               {profileById && (
                 <TableCell className="text-center text-sm font-semibold">
-                  {p ? `${p.kalan_izin_gunu} / ${p.toplam_yillik_izin}` : "—"}
+                  {p ? `${fmtDays(remainingDays(p))} / ${fmtDays(totalLeaveDays(p))}` : "—"}
                 </TableCell>
               )}
               <TableCell className="whitespace-nowrap text-sm">

@@ -31,6 +31,8 @@ import {
   LEAVE_TYPE_LABEL,
   calculateBusinessDays,
   formatDateTR,
+  fmtDays,
+  remainingDays,
   type LeaveTypeValue,
 } from "@/lib/leave-utils";
 import { Loader2, Info } from "lucide-react";
@@ -65,7 +67,7 @@ function YeniTalep() {
   }, [start, end, holidays]);
 
   const willExceed =
-    izinTuru === "yillik" && profile && totalDays > profile.kalan_izin_gunu;
+    izinTuru === "yillik" && profile && totalDays > remainingDays(profile);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -218,7 +220,7 @@ function YeniTalep() {
                 )}
                 {izinTuru === "yillik" && profile && (
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Kalan yıllık izin: {profile.kalan_izin_gunu} gün
+                    Kalan yıllık izin: {fmtDays(remainingDays(profile))} gün
                     {willExceed && (
                       <span className="ml-1 font-medium text-destructive">
                         — bakiyeyi aşıyor!

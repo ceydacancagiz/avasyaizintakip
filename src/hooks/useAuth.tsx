@@ -9,6 +9,8 @@ type Profile = {
   departman: string | null;
   toplam_yillik_izin: number;
   kalan_izin_gunu: number;
+  kalan_izin?: number | string | null;
+  toplam_izin?: number | string | null;
   personel_kodu?: string | null;
   tc_kimlik?: string | null;
   ise_giris_tarihi?: string | null;
