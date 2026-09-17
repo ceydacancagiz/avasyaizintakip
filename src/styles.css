@@ -370,5 +370,9 @@
     border: none !important;
     box-shadow: none !important;
     overflow: visible !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
   }
 }
