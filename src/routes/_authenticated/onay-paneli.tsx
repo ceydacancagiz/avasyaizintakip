@@ -33,7 +33,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { LEAVE_TYPE_LABEL, formatDateTR } from "@/lib/leave-utils";
+import {
+  LEAVE_TYPE_LABEL,
+  formatDateTR,
+  fmtDays,
+  remainingDays,
+  totalLeaveDays,
+} from "@/lib/leave-utils";
 import { toast } from "sonner";
 import { Check, X, ShieldCheck, Printer } from "lucide-react";
 import type { LeaveRequest, Profile } from "@/hooks/useLeaves";
