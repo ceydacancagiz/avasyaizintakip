@@ -86,3 +86,28 @@ export function daysBetween(start: Date, end: Date): Date[] {
 }
 
 export { addDays };
+
+/** Ondalıklı gün sayısını Türkçe biçimde gösterir (9,5 gibi) */
+export function fmtDays(n: number | null | undefined): string {
+  const v = Number(n ?? 0);
+  return (Number.isInteger(v) ? String(v) : v.toFixed(1)).replace(".", ",");
+}
+
+type BalanceLike = {
+  kalan_izin?: number | string | null;
+  toplam_izin?: number | string | null;
+  kalan_izin_gunu: number;
+  toplam_yillik_izin: number;
+};
+
+/** Kalan izin (ondalıklı, eksiye düşebilir) */
+export function remainingDays(p: BalanceLike | null | undefined): number {
+  if (!p) return 0;
+  return p.kalan_izin != null ? Number(p.kalan_izin) : p.kalan_izin_gunu;
+}
+
+/** Toplam izin hakkı (ondalıklı) */
+export function totalLeaveDays(p: BalanceLike | null | undefined): number {
+  if (!p) return 0;
+  return p.toplam_izin != null ? Number(p.toplam_izin) : p.toplam_yillik_izin;
+}
