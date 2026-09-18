@@ -196,13 +196,14 @@ export function LeaveFormPrint({
   }, [open, leave, profile]);
 
   useEffect(() => {
-    if (open && autoPrint && state && autoPrintedLeaveId.current !== leave.id) {
-      autoPrintedLeaveId.current = leave.id;
+    const leaveId = leave?.id;
+    if (open && autoPrint && state && leaveId && autoPrintedLeaveId.current !== leaveId) {
+      autoPrintedLeaveId.current = leaveId;
       const t = setTimeout(() => printForm(state), 100);
       return () => clearTimeout(t);
     }
     if (!open) autoPrintedLeaveId.current = null;
-  }, [open, autoPrint, state, leave.id]);
+  }, [open, autoPrint, state, leave?.id]);
 
   if (!leave || !state) return null;
 
