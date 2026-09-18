@@ -1,5 +1,5 @@
 import { addDays, format, parseISO } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +15,78 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/avasya-logo.jpg";
 import type { LeaveRequest, Profile } from "@/hooks/useLeaves";
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function printForm(state: FormState) {
+  const frame = document.createElement("iframe");
+  frame.setAttribute("aria-hidden", "true");
+  frame.style.position = "fixed";
+  frame.style.width = "1px";
+  frame.style.height = "1px";
+  frame.style.right = "0";
+  frame.style.bottom = "0";
+  frame.style.border = "0";
+
+  const cell = (value: string) => (value ? escapeHtml(value) : "&nbsp;");
+  const radio = (selected: boolean, label: string) =>
+    `<span class="option"><span class="radio">${selected ? "●" : ""}</span>${label}</span>`;
+  const rows = [
+    ["Personel Kodu", state.personel_kodu],
+    ["Adı ve Soyadı", state.ad_soyad],
+    ["SSK Sicil No - T.C. Kimlik", state.tc_kimlik],
+    ["İşe Giriş Tarihi", state.ise_giris_tarihi],
+    ["Görevi", state.gorev],
+    ["Departmanı", state.departman],
+    [
+      "İzin Türü",
+      `<div class="options">${radio(state.izin_turu === "ucretsiz", "Ücretsiz İzin")}${radio(state.izin_turu === "ucretli", "Ücretlii İzin")}${radio(state.izin_turu === "yillik", "Yıllık İzin")}</div>`,
+      true,
+    ],
+    ["İzin Süresi (Gün)", state.izin_suresi],
+    ["İzin Başlangıç Tarihi", state.baslangic],
+    ["İzin Bitiş Tarihi", state.bitis],
+    ["Yol İzni (Gün)", state.yol_izni],
+    ["İşe Başlama Tarihi", state.ise_baslama],
+    ["İzindeki Adresi", state.izin_adresi],
+    ["İzindeki Telefonu", state.izin_telefonu],
+  ] as const;
+
+  frame.srcdoc = `<!doctype html>
+<html><head><meta charset="utf-8"><title></title><style>
+@page{size:A4 portrait;margin:0}*{box-sizing:border-box}html,body{margin:0;padding:0;background:#fff;color:#000;font-family:Arial,sans-serif}body{width:210mm;height:297mm;overflow:hidden}.page{width:210mm;min-height:297mm;padding:12mm 14mm}.logo-row{text-align:right;height:19mm}.logo{height:18mm;width:auto}.company{margin:6mm 0 0;font-size:11pt}.title{margin:4mm 0 0;text-align:center;font-size:12pt;font-weight:700}.date{text-align:right;margin:1mm 0 2mm;font-size:11pt}.date-value{display:inline-block;width:28mm;text-align:left}table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:11pt}td{border:1px solid #000;padding:1.6mm 3mm;height:8.3mm;vertical-align:middle}.label{width:33%;font-weight:700}.address td{height:12mm}.explanation td{height:14mm}.options{display:flex;align-items:center;justify-content:space-around;gap:3mm;white-space:nowrap}.option{display:inline-flex;align-items:center}.radio{display:inline-flex;align-items:center;justify-content:center;width:3.2mm;height:3.2mm;margin-right:1.5mm;border:1px solid #000;border-radius:50%;font-size:6pt;line-height:1}.signatures{display:flex;justify-content:space-between;margin-top:15mm;text-align:center;font-size:11pt}.signature{width:45%}.signature strong{display:block}.name{margin-top:2mm;font-size:10pt}
+</style></head><body><main class="page"><div class="logo-row"><img class="logo" src="${logo}" alt="AVASYA Teknoloji"></div><p class="company">AVASYA TEKNOLOJİ SANAYİ VE DIŞ TİC.LTD.ŞTİ</p><p class="title">İZİN KULLANIM TALEP FORMU</p><p class="date">Tarih: <span class="date-value">${cell(state.tarih)}</span></p><table><tbody>${rows
+    .map(
+      ([label, value, raw], index) =>
+        `<tr${index === 12 ? ' class="address"' : ""}><td class="label">${label}</td><td>${raw ? value : cell(value)}</td></tr>`,
+    )
+    .join("")}<tr class="explanation"><td class="label">İZAHAT</td><td>${cell(state.izahat)}</td></tr></tbody></table><div class="signatures"><div class="signature"><strong>PERSONEL</strong><span>Ad Soyad/ İmza</span></div><div class="signature"><strong>YETKİLİ ONAY</strong><span>Ad Soyad/ İmza</span><div class="name">Evrim Baykal</div></div></div></main></body></html>`;
+
+  document.body.appendChild(frame);
+  frame.onload = () => {
+    const printWindow = frame.contentWindow;
+    if (!printWindow) {
+      frame.remove();
+      toast.error("Yazdırma penceresi açılamadı.");
+      return;
+    }
+    const image = frame.contentDocument?.querySelector("img");
+    const print = () => {
+      printWindow.focus();
+      printWindow.print();
+      window.setTimeout(() => frame.remove(), 1_000);
+    };
+    if (image && !image.complete) image.addEventListener("load", print, { once: true });
+    else print();
+  };
+}
 
 function d(v: string | null | undefined) {
   if (!v) return "";
@@ -117,17 +189,21 @@ export function LeaveFormPrint({
   const [state, setState] = useState<FormState | null>(null);
   const [editable, setEditable] = useState(true);
   const [saving, setSaving] = useState(false);
+  const autoPrintedLeaveId = useRef<string | null>(null);
 
   useEffect(() => {
     if (open && leave) setState(buildState(leave, profile));
   }, [open, leave, profile]);
 
   useEffect(() => {
-    if (open && autoPrint) {
-      const t = setTimeout(() => window.print(), 350);
+    const leaveId = leave?.id;
+    if (open && autoPrint && state && leaveId && autoPrintedLeaveId.current !== leaveId) {
+      autoPrintedLeaveId.current = leaveId;
+      const t = setTimeout(() => printForm(state), 100);
       return () => clearTimeout(t);
     }
-  }, [open, autoPrint]);
+    if (!open) autoPrintedLeaveId.current = null;
+  }, [open, autoPrint, state, leave?.id]);
 
   if (!leave || !state) return null;
 
@@ -287,7 +363,7 @@ export function LeaveFormPrint({
               Kaydet
             </Button>
           )}
-          <Button onClick={() => window.print()}>
+          <Button onClick={() => printForm(state)}>
             <Printer className="mr-2 h-4 w-4" /> Yazdır
           </Button>
         </DialogFooter>
