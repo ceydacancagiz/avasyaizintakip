@@ -19,7 +19,6 @@ import {
   LEAVE_TYPE_STYLE,
   fmtDays,
   remainingDays,
-  totalLeaveDays,
   type LeaveTypeValue,
 } from "@/lib/leave-utils";
 import {
