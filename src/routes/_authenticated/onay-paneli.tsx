@@ -419,7 +419,7 @@ function RequestTable({
               </TableCell>
               {profileById && (
                 <TableCell className="text-center text-sm font-semibold">
-                  {p ? `${fmtDays(remainingDays(p))} / ${fmtDays(totalLeaveDays(p))}` : "—"}
+                  {p ? `${fmtDays(remainingDays(p))} gün` : "—"}
                 </TableCell>
               )}
               <TableCell className="whitespace-nowrap text-sm">

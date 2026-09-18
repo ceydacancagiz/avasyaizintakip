@@ -19,7 +19,6 @@ import {
   LEAVE_TYPE_STYLE,
   fmtDays,
   remainingDays,
-  totalLeaveDays,
   type LeaveTypeValue,
 } from "@/lib/leave-utils";
 import {
@@ -111,7 +110,7 @@ function PanelPage() {
         <StatCard
           icon={<CalendarDays />}
           label="Kalan İzin Günüm"
-          value={`${fmtDays(remainingDays(profile))} / ${fmtDays(totalLeaveDays(profile))}`}
+          value={`${fmtDays(remainingDays(profile))} gün`}
           hint="Yıllık izin bakiyesi"
           hintClassName="font-semibold text-[color:var(--success)]"
         />
