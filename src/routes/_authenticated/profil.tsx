@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { Loader2, User as UserIcon, Mail, Building2 } from "lucide-react";
+import { fmtDays, remainingDays, totalLeaveDays } from "@/lib/leave-utils";
 
 export const Route = createFileRoute("/_authenticated/profil")({
   ssr: false,
@@ -59,8 +60,10 @@ function ProfilPage() {
 
   if (!profile) return null;
 
-  const used = profile.toplam_yillik_izin - profile.kalan_izin_gunu;
-  const pct = Math.min(100, Math.round((used / profile.toplam_yillik_izin) * 100));
+  const total = totalLeaveDays(profile);
+  const remaining = remainingDays(profile);
+  const used = total - remaining;
+  const pct = total > 0 ? Math.max(0, Math.min(100, Math.round((used / total) * 100))) : 0;
 
   const initials = profile.ad_soyad
     .split(" ")
@@ -108,15 +111,15 @@ function ProfilPage() {
         <CardHeader>
           <CardTitle>Yıllık İzin Bakiyesi</CardTitle>
           <CardDescription>
-            {used} gün kullanıldı · {profile.kalan_izin_gunu} gün kaldı
+            {fmtDays(used)} gün kullanıldı · {fmtDays(remaining)} gün kaldı
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Progress value={pct} className="h-3" />
           <div className="mt-4 grid grid-cols-3 gap-3 text-center">
-            <BalanceStat label="Toplam" value={profile.toplam_yillik_izin} />
+            <BalanceStat label="Toplam" value={total} />
             <BalanceStat label="Kullanılan" value={used} accent="destructive" />
-            <BalanceStat label="Kalan" value={profile.kalan_izin_gunu} accent="success" />
+            <BalanceStat label="Kalan" value={remaining} accent="success" />
           </div>
         </CardContent>
       </Card>
@@ -233,7 +236,7 @@ function BalanceStat({
   return (
     <div className="rounded-lg border border-border bg-secondary/50 p-3">
       <p className="text-2xl font-bold tracking-tight">
-        <span className={color}>{value}</span>
+          <span className={color}>{fmtDays(value)}</span>
       </p>
       <p className="text-xs uppercase tracking-wide text-muted-foreground">{label}</p>
     </div>
