@@ -1,5 +1,5 @@
 import { addDays, format, parseISO } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -35,7 +35,7 @@ function printForm(state: FormState) {
   frame.style.bottom = "0";
   frame.style.border = "0";
 
-  const cell = (value: string) => escapeHtml(value || "&nbsp;");
+  const cell = (value: string) => (value ? escapeHtml(value) : "&nbsp;");
   const radio = (selected: boolean, label: string) =>
     `<span class="option"><span class="radio">${selected ? "●" : ""}</span>${label}</span>`;
   const rows = [
@@ -189,17 +189,20 @@ export function LeaveFormPrint({
   const [state, setState] = useState<FormState | null>(null);
   const [editable, setEditable] = useState(true);
   const [saving, setSaving] = useState(false);
+  const autoPrintedLeaveId = useRef<string | null>(null);
 
   useEffect(() => {
     if (open && leave) setState(buildState(leave, profile));
   }, [open, leave, profile]);
 
   useEffect(() => {
-    if (open && autoPrint && state) {
+    if (open && autoPrint && state && autoPrintedLeaveId.current !== leave.id) {
+      autoPrintedLeaveId.current = leave.id;
       const t = setTimeout(() => printForm(state), 100);
       return () => clearTimeout(t);
     }
-  }, [open, autoPrint, state]);
+    if (!open) autoPrintedLeaveId.current = null;
+  }, [open, autoPrint, state, leave.id]);
 
   if (!leave || !state) return null;
 
