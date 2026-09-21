@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LeaveCalendar, type LeaveEvent } from "@/components/LeaveCalendar";
 import { EmployeeFilter } from "@/components/EmployeeFilter";
-import { useApprovedLeaves, useProfiles } from "@/hooks/useLeaves";
+import { useApprovedLeaves, useMyLeaves, usePendingLeaves, useProfiles } from "@/hooks/useLeaves";
 import { useAuth } from "@/hooks/useAuth";
 import {
   LEAVE_TYPES,
