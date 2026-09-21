@@ -66,8 +66,6 @@ function YeniTalep() {
     return calculateBusinessDays(s, e, holidays);
   }, [start, end, holidays]);
 
-  const willExceed =
-    izinTuru === "yillik" && profile && totalDays > remainingDays(profile);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,10 +80,6 @@ function YeniTalep() {
     }
     if (totalDays === 0) {
       toast.error("Seçilen aralıkta iş günü yok");
-      return;
-    }
-    if (willExceed) {
-      toast.error("Yıllık izin bakiyeniz yetersiz");
       return;
     }
 
@@ -221,11 +215,6 @@ function YeniTalep() {
                 {izinTuru === "yillik" && profile && (
                   <p className="mt-1 text-xs text-muted-foreground">
                     Kalan yıllık izin: {fmtDays(remainingDays(profile))} gün
-                    {willExceed && (
-                      <span className="ml-1 font-medium text-destructive">
-                        — bakiyeyi aşıyor!
-                      </span>
-                    )}
                   </p>
                 )}
               </div>
@@ -251,7 +240,7 @@ function YeniTalep() {
               >
                 İptal
               </Button>
-              <Button type="submit" disabled={loading || willExceed || totalDays === 0}>
+              <Button type="submit" disabled={loading || totalDays === 0}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Talebi Gönder
               </Button>
