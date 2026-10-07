@@ -92,21 +92,59 @@ function PanelPage() {
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Merhaba, {profile?.ad_soyad?.split(" ")[0] ?? "Çalışan"} 👋
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Şirket ortak takvimini ve izin durumunuzu buradan takip edin.
+      {isManager && pendingMine > 0 && (
+        <Link
+          to="/onay-paneli"
+          className="glass glass-hover flex items-center gap-3 rounded-xl px-5 py-4"
+          style={{ backgroundImage: "var(--gradient-exec)" }}
+        >
+          <span className="pulse-dot h-2.5 w-2.5 rounded-full bg-amber-neon text-amber-neon" />
+          <p className="flex-1 text-sm font-medium tracking-tight">
+            Genel Müdür Yardımcısı Onayı Bekleyen{" "}
+            <span className="font-semibold text-amber-neon">{pendingMine} Adet</span>{" "}
+            Talebiniz Bulunuyor
           </p>
+          <ArrowRight className="h-4 w-4 text-primary-glow" />
+        </Link>
+      )}
+
+      <div
+        className="glass relative overflow-hidden rounded-2xl p-6 sm:p-8"
+        style={{ backgroundImage: "var(--gradient-exec)" }}
+      >
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            {isManager && (
+              <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-neon/30 bg-amber-neon/10 px-3 py-1 text-xs font-medium text-amber-neon">
+                <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-amber-neon" />
+                Genel Müdür Yardımcısı
+              </span>
+            )}
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+              Hoş Geldiniz, {profile?.ad_soyad?.split(" ")[0] ?? "Çalışan"}
+              {isManager ? " Hanım" : ""}
+            </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Şirket ortak takvimini ve izin durumunuzu buradan takip edin.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {isManager && (
+              <Button asChild size="lg" variant="outline" className="border-amber-neon/40 bg-transparent">
+                <Link to="/onay-paneli">
+                  GMY Onay Merkezine Geç
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            )}
+            <Button asChild size="lg" className="shadow-[var(--shadow-glow)]">
+              <Link to="/yeni-talep">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Yeni İzin Talebi
+              </Link>
+            </Button>
+          </div>
         </div>
-        <Button asChild size="lg">
-          <Link to="/yeni-talep">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Yeni İzin Talebi
-          </Link>
-        </Button>
       </div>
 
       {/* Widgets */}
@@ -140,7 +178,7 @@ function PanelPage() {
         />
         <StatCard
           icon={<Clock />}
-          label={isManager ? "Onay Bekleyen" : "Aktif Talebim"}
+          label={isManager ? "GMY Onayı Bekleyenler" : "Onay Bekleyen Taleplerim"}
           value={String(pendingMine)}
           hint={isManager ? "Yönetici panelinde" : "Beklemedeki talep sayınız"}
           action={
@@ -250,7 +288,7 @@ function StatCard({
   action?: React.ReactNode;
 }) {
   return (
-    <Card className="relative z-0 border-2 border-foreground/90 shadow-sm transition-all duration-200 ease-out hover:z-10 hover:scale-[1.06] hover:shadow-xl">
+    <Card className="glass-hover relative">
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-2">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">

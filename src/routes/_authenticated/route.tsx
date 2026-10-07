@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/_authenticated")({
 function AuthenticatedLayout() {
   const { session, loading, profile } = useAuth();
   const nav = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
     if (!loading && !session) nav({ to: "/auth", replace: true });
@@ -34,7 +35,7 @@ function AuthenticatedLayout() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-secondary/30">
+      <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
         <SidebarInset className="flex flex-1 flex-col">
           <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-background/80 px-4 backdrop-blur">
@@ -54,7 +55,7 @@ function AuthenticatedLayout() {
               </div>
             </div>
           </header>
-          <main className="flex-1 p-4 sm:p-6 lg:p-8">
+          <main key={pathname} className="animate-fade-in-up flex-1 p-4 sm:p-6 lg:p-8">
             <Outlet />
           </main>
         </SidebarInset>
