@@ -410,3 +410,11 @@
     background: #fff !important;
   }
 }
+
+/* Dark calendar fixes */
+.rbc-off-range-bg { background: #0c0a09 !important; }
+.rbc-toolbar button { color: var(--foreground) !important; background: transparent !important; border-color: var(--border) !important; }
+.rbc-toolbar button.rbc-active { background: var(--primary) !important; color: var(--primary-foreground) !important; }
+.rbc-toolbar button:hover { background: var(--accent) !important; }
+.rbc-header { background: #121215 !important; }
+.rbc-today { background: color-mix(in oklab, var(--primary) 14%, transparent) !important; }
