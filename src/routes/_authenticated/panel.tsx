@@ -250,7 +250,7 @@ function StatCard({
   action?: React.ReactNode;
 }) {
   return (
-    <Card className="relative z-0 border-2 border-foreground/90 shadow-sm transition-all duration-200 ease-out hover:z-10 hover:scale-[1.06] hover:shadow-xl">
+    <Card className="glass-hover relative">
       <CardContent className="p-5">
         <div className="flex items-start justify-between gap-2">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary/10 text-primary">
