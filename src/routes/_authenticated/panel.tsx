@@ -84,7 +84,11 @@ function PanelPage() {
     return s >= today && s <= weekEnd;
   });
 
-  const pendingMine = 0; // simple widget
+  const { data: pendingAll = [] } = usePendingLeaves();
+  const { data: myLeaves = [] } = useMyLeaves(profile?.id);
+  const pendingMine = isManager
+    ? pendingAll.length
+    : myLeaves.filter((l) => l.durum === "beklemede").length;
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-6">
