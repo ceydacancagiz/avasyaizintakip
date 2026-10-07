@@ -178,7 +178,7 @@ function PanelPage() {
         />
         <StatCard
           icon={<Clock />}
-          label={isManager ? "Onay Bekleyen" : "Aktif Talebim"}
+          label={isManager ? "GMY Onayı Bekleyenler" : "Onay Bekleyen Taleplerim"}
           value={String(pendingMine)}
           hint={isManager ? "Yönetici panelinde" : "Beklemedeki talep sayınız"}
           action={
