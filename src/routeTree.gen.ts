@@ -9,48 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedOnayPaneliRouteImport } from './routes/_authenticated/onay-paneli'
-import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
-import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
-import { Route as AuthenticatedTakvimRouteImport } from './routes/_authenticated/takvim'
-import { Route as AuthenticatedTaleplerimRouteImport } from './routes/_authenticated/taleplerim'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedYeniTalepRouteImport } from './routes/_authenticated/yeni-talep'
+import { Route as AuthenticatedTaleplerimRouteImport } from './routes/_authenticated/taleplerim'
+import { Route as AuthenticatedTakvimRouteImport } from './routes/_authenticated/takvim'
+import { Route as AuthenticatedProfilRouteImport } from './routes/_authenticated/profil'
+import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
+import { Route as AuthenticatedOnayPaneliRouteImport } from './routes/_authenticated/onay-paneli'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedOnayPaneliRoute = AuthenticatedOnayPaneliRouteImport.update({
-  id: '/onay-paneli',
-  path: '/onay-paneli',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
-  id: '/panel',
-  path: '/panel',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedProfilRoute = AuthenticatedProfilRouteImport.update({
-  id: '/profil',
-  path: '/profil',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedTakvimRoute = AuthenticatedTakvimRouteImport.update({
-  id: '/takvim',
-  path: '/takvim',
+const AuthenticatedYeniTalepRoute = AuthenticatedYeniTalepRouteImport.update({
+  id: '/yeni-talep',
+  path: '/yeni-talep',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTaleplerimRoute = AuthenticatedTaleplerimRouteImport.update({
@@ -58,9 +43,24 @@ const AuthenticatedTaleplerimRoute = AuthenticatedTaleplerimRouteImport.update({
   path: '/taleplerim',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedYeniTalepRoute = AuthenticatedYeniTalepRouteImport.update({
-  id: '/yeni-talep',
-  path: '/yeni-talep',
+const AuthenticatedTakvimRoute = AuthenticatedTakvimRouteImport.update({
+  id: '/takvim',
+  path: '/takvim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfilRoute = AuthenticatedProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
+  id: '/panel',
+  path: '/panel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnayPaneliRoute = AuthenticatedOnayPaneliRouteImport.update({
+  id: '/onay-paneli',
+  path: '/onay-paneli',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
@@ -138,11 +138,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -152,39 +152,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/onay-paneli': {
-      id: '/_authenticated/onay-paneli'
-      path: '/onay-paneli'
-      fullPath: '/onay-paneli'
-      preLoaderRoute: typeof AuthenticatedOnayPaneliRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/panel': {
-      id: '/_authenticated/panel'
-      path: '/panel'
-      fullPath: '/panel'
-      preLoaderRoute: typeof AuthenticatedPanelRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/profil': {
-      id: '/_authenticated/profil'
-      path: '/profil'
-      fullPath: '/profil'
-      preLoaderRoute: typeof AuthenticatedProfilRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/takvim': {
-      id: '/_authenticated/takvim'
-      path: '/takvim'
-      fullPath: '/takvim'
-      preLoaderRoute: typeof AuthenticatedTakvimRouteImport
+    '/_authenticated/yeni-talep': {
+      id: '/_authenticated/yeni-talep'
+      path: '/yeni-talep'
+      fullPath: '/yeni-talep'
+      preLoaderRoute: typeof AuthenticatedYeniTalepRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/taleplerim': {
@@ -194,11 +173,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTaleplerimRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/yeni-talep': {
-      id: '/_authenticated/yeni-talep'
-      path: '/yeni-talep'
-      fullPath: '/yeni-talep'
-      preLoaderRoute: typeof AuthenticatedYeniTalepRouteImport
+    '/_authenticated/takvim': {
+      id: '/_authenticated/takvim'
+      path: '/takvim'
+      fullPath: '/takvim'
+      preLoaderRoute: typeof AuthenticatedTakvimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profil': {
+      id: '/_authenticated/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof AuthenticatedProfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/panel': {
+      id: '/_authenticated/panel'
+      path: '/panel'
+      fullPath: '/panel'
+      preLoaderRoute: typeof AuthenticatedPanelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onay-paneli': {
+      id: '/_authenticated/onay-paneli'
+      path: '/onay-paneli'
+      fullPath: '/onay-paneli'
+      preLoaderRoute: typeof AuthenticatedOnayPaneliRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
