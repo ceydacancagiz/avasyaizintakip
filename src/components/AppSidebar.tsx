@@ -57,7 +57,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border/60 px-3 py-4">
         <div className="flex items-center gap-2.5">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-primary to-amber-neon text-primary-foreground">
             <CalendarDays className="h-5 w-5" />
           </div>
           <div className="min-w-0 group-data-[collapsible=icon]:hidden">
