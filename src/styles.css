@@ -444,3 +444,8 @@
 .leave-cal-light .rbc-month-view .rbc-day-bg:hover { transform: none; box-shadow: inset 0 0 0 1px #93c5fd; background: #f8fafc; }
 .leave-cal-light .rbc-show-more { color: #2563eb; }
 .leave-cal-light .rbc-event { font-weight: 600; }
+.leave-cal-light .rbc-month-view .rbc-row-bg .rbc-day-bg:nth-child(n+6) { background: #fff1f2; }
+.leave-cal-light .rbc-month-view .rbc-row-bg .rbc-day-bg.rbc-off-range-bg:nth-child(n+6) { background: #fdf2f4 !important; }
+.leave-cal-light .rbc-month-header .rbc-header:nth-child(n+6) { color: #dc2626 !important; }
+.leave-cal-light .rbc-date-cell.rbc-now .rbc-button-link { background: #b91c1c; }
+.leave-cal-light .rbc-event { border-radius: 6px; padding: 3px 8px; }
