@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { LeaveCalendar, type LeaveEvent } from "@/components/LeaveCalendar";
 import { useAllLeaves, useProfiles } from "@/hooks/useLeaves";
-import { LEAVE_TYPE_LABEL, VISIBLE_LEAVE_TYPES } from "@/lib/leave-utils";
+import { LEAVE_TYPE_LABEL, LEAVE_TYPES } from "@/lib/leave-utils";
 import { addDays, endOfMonth, parseISO, startOfMonth } from "date-fns";
 
 export const Route = createFileRoute("/_authenticated/takvim")({
@@ -112,7 +112,7 @@ function TakvimPage() {
             <label className="mt-3 block text-xs text-[#6b7280]">İzin Türü</label>
             <select className={selectCls} value={tur} onChange={(e) => setTur(e.target.value)}>
               <option value="">Tümü</option>
-              {VISIBLE_LEAVE_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
+              {LEAVE_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
             </select>
             <div className="mt-3 text-xs text-[#6b7280]">Durum</div>
             {STATUS.map((s) => (
