@@ -418,3 +418,29 @@
 .rbc-toolbar button:hover { background: var(--accent) !important; }
 .rbc-header { background: #121215 !important; }
 .rbc-today { background: color-mix(in oklab, var(--primary) 14%, transparent) !important; }
+
+/* Açık tema takvim (tüm takvimler) */
+.leave-cal-light {
+  --leave-annual: #dbeafe; --leave-annual-foreground: #1d4ed8;
+  --leave-unpaid: #fef3c7; --leave-unpaid-foreground: #b45309;
+  --leave-sick: #fee2e2; --leave-sick-foreground: #b91c1c;
+  --leave-parental: #d1fae5; --leave-parental-foreground: #047857;
+  --leave-other: #f3f4f6; --leave-other-foreground: #374151;
+  background: #ffffff; color: #111827; border-radius: 12px; padding: 12px;
+}
+.leave-cal-light .rbc-calendar { color: #111827; }
+.leave-cal-light .rbc-month-view, .leave-cal-light .rbc-time-view { background: #ffffff !important; border-color: #e5e7eb !important; }
+.leave-cal-light .rbc-header { background: #f9fafb !important; color: #6b7280 !important; border-color: #e5e7eb !important; }
+.leave-cal-light .rbc-month-row, .leave-cal-light .rbc-day-bg, .leave-cal-light .rbc-timeslot-group, .leave-cal-light .rbc-time-content, .leave-cal-light .rbc-time-header-content, .leave-cal-light .rbc-day-slot .rbc-time-slot { border-color: #e5e7eb !important; }
+.leave-cal-light .rbc-off-range-bg { background: #f9fafb !important; }
+.leave-cal-light .rbc-today { background: #eff6ff !important; }
+.leave-cal-light .rbc-date-cell, .leave-cal-light .rbc-date-cell .rbc-button-link { color: #111827 !important; font-weight: 600; }
+.leave-cal-light .rbc-off-range, .leave-cal-light .rbc-off-range .rbc-button-link { color: #9ca3af !important; }
+.leave-cal-light .rbc-date-cell.rbc-now .rbc-button-link { color: #ffffff !important; background: #2563eb; border-radius: 9999px; padding: 1px 7px; text-decoration: none; }
+.leave-cal-light .rbc-toolbar-label, .leave-cal-light .rbc-label, .leave-cal-light .rbc-time-gutter { color: #111827 !important; }
+.leave-cal-light .rbc-toolbar button { color: #374151 !important; background: #ffffff !important; border-color: #d1d5db !important; }
+.leave-cal-light .rbc-toolbar button:hover { background: #f3f4f6 !important; }
+.leave-cal-light .rbc-toolbar button.rbc-active { background: #2563eb !important; border-color: #2563eb !important; color: #ffffff !important; }
+.leave-cal-light .rbc-month-view .rbc-day-bg:hover { transform: none; box-shadow: inset 0 0 0 1px #93c5fd; background: #f8fafc; }
+.leave-cal-light .rbc-show-more { color: #2563eb; }
+.leave-cal-light .rbc-event { font-weight: 600; }

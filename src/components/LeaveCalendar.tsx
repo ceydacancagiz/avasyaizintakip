@@ -73,7 +73,7 @@ export function LeaveCalendar({
   );
 
   return (
-    <div style={{ height }}>
+    <div className="leave-cal-light" style={{ height }}>
       <Calendar
         localizer={localizer}
         events={events}
